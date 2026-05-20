@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/entity-definition-2.1.xsd">
+
+<!--    this is aur master entity means it exist completely independent-->
+    <entity entity-name="Party" package="com.party">
+        <field name="partyId" type="id" is-pk="true"/>
+        <field name="partyTypeEnumId" type="id"/>
+        <field name="createDate" type="date-time"/>
+
+        <!--    Enum for partyTypeEnumId  in Party  -->
+        <relationship type="one" title="PartyType"   related="Enumeration" >
+            <key-map field-name="partyTypeEnumId"/>
+        </relationship>
+
+<!--       A Party has many Person PartyGroup PartyContactMech...
+           When deleting Party deletes all the Person, PartyGroup, PartyContactMech...
+
+
+           Dependent Entities ==> Moqui automatically search for "Reverse Relationships".
+           If Entity A se B tak type="one" relationship hai, toh B se A tak type="many" (dependent) mana jata hai...
+-->
+        <relationship type="many" related="Person"/>
+        <relationship type="many" related="PartyGroup"/>
+        <relationship type="many" related="PartyContactMech"/>
+
+        <seed-data>
+            <moqui.basic.EnumerationType description="Party Type" enumTypeId="PartyType"/>
+            <moqui.basic.Enumeration enumId="PERSON" enumTypeId="PartyType"/>
+            <moqui.basic.Enumeration  enumId="PARTY_GROUP" enumTypeId="PartyType"/>
+        </seed-data>
+    </entity>
+
+</entities>

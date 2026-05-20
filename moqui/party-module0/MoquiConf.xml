@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<moqui-conf xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/moqui-conf-3.xsd">
+
+    <screen-facade>
+
+        <!-- this tag tells moqui where you want to attach new functionality. -->
+        <!-- here location targets the moqui's apps menu where icons appear after you log in -->
+        <screen location="component://webroot/screen/webroot/apps.xml">
+            <!--
+                    this tag tells moqui what and how screen to be added.
+                    The name attribute is used to build the URL Path.
+                    The text that the user actually sees on the screen or button by menu-title tag
+                    Location = The path to the source file of the screen you are adding
+            -->
+            <!--Mount the parent screen for all the  entities-->
+
+            <subscreens-item name="party" menu-title="Party Management"
+                             location="component://party/screen/PartyScreenManagement.xml"/>
+        </screen>
+
+    </screen-facade>
+
+</moqui-conf>

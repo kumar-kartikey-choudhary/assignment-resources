@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-facade-xml type="demo">
+
+<!--    this is our Party entity data -->
+    <com.party.Party partyId="1001"
+                     partyTypeEnumId="PERSON"/>
+    <com.party.Party partyId="1002"
+                     partyTypeEnumId="PARTY_GROUP"/>
+    <com.party.Party partyId="1003"
+                     partyTypeEnumId="PARTY_GROUP"/>
+    <com.party.Party partyId="1004"
+                     partyTypeEnumId="PARTY_GROUP"/>
+    <com.party.Party partyId="1005"
+                     partyTypeEnumId="PARTY_GROUP"/>
+<!--    <com.party.Party partyId="1007"-->
+<!--                     partyTypeEnumId="PARTY"/>-->
+    <com.party.Party partyId="1008"
+                     partyTypeEnumId="PARTY_GROUP"/>
+
+
+    <!--    this is our Person entity data -->
+    <com.party.Person partyId="1001"
+                      firstName="John"
+                      lastName="sharma"/>
+    <com.party.Person partyId="1004"
+                      firstName="karan"
+                      lastName="sharma"/>
+    <com.party.Person partyId="1005"
+                      firstName="Raman"
+                      lastName="Pathak"/>
+
+    <!--    this is our PartyGroup entity data -->
+    <com.party.PartyGroup partyId="1002"
+                          groupName="lpvdr.com"
+                          description="this is lpvdr organization"/>
+
+
+    <com.party.PartyGroup partyId="1003"
+                          groupName="PD"
+                          description="this is the organization pratik dairy"/>
+
+<!-- this is our contact mech entity data -->
+    <com.party.ContactMech contactMechId="1001"
+                           contactMechTypeId="Email"
+                           infoString="abc@11"/>
+    <com.party.ContactMech contactMechId="1002"
+                           contactMechTypeId="POSTAL_ADDRESS"
+                           infoString="abc 12"/>
+    <com.party.ContactMech contactMechId="1003"
+                           contactMechTypeId="TELECOM_NUMBER"
+                           infoString="9835372725"/>
+
+<!--    this is our PartyContactMech entity data-->
+    <com.party.PartyContactMech partyId="1001"
+                                contactMechId="1001"
+                                fromDate="2023-01-01 09:00:00.000"
+                                thruDate="2025-12-31 23:59:59.000"/>
+
+    <com.party.PartyContactMech partyId="1002"
+                                contactMechId="1002"
+                                fromDate="2023-06-15 12:00:00.000"/>
+
+
+</entity-facade-xml>

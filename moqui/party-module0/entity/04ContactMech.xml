@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entities xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/entity-definition-3.xsd">
+
+    <!--    this is aur master entity means it exist completely independent-->
+    <entity entity-name="ContactMech" package="com.party" >
+        <field name="contactMechId" type="id" is-pk="true"/>
+        <field name="contactMechTypeId" type="id"/>
+        <field name="infoString" type="text-medium"/>
+        <field name="createDate" type="date-time"/>
+
+        <!--   Enum type for contactMechTypeEnumId     -->
+        <relationship type="one" title="ContactMechType" related="Enumeration">
+            <key-map field-name="contactMechTypeId"/>
+        </relationship>
+
+<!--        One ContactMech has many PartyContactMech -->
+        <relationship type="many" related="PartyContactMech"/>
+
+        <seed-data>
+            <moqui.basic.EnumerationType description="Contact Mech Type" enumTypeId="ContactMech"/>
+            <moqui.basic.Enumeration description="EMAIL Data" enumId="EMAIL" enumTypeId="ContactMech"/>
+            <moqui.basic.Enumeration description="TELECOM_NUMBER Data" enumId="TELECOM_NUMBER" enumTypeId="ContactMech"/>
+            <moqui.basic.Enumeration description="POSTAL_ADDRESS Data" enumId="POSTAL_ADDRESS" enumTypeId="ContactMech"/>
+        </seed-data>
+
+    </entity>
+
+</entities>

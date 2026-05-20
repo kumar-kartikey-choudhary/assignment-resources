@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-3.xsd">
+
+    <transition name="contactMech">
+        <service-call name="com.services.ContactMechService.create#ContactMech" />
+        <default-response url="."/>
+    </transition>
+
+    <actions>
+        <!--Entity finds for the screen ContactMech entity-->
+        <entity-find entity-name="com.party.ContactMech" list="contactMechList"><search-form-inputs/></entity-find>
+    </actions>
+    <widgets>
+        <container-dialog id="CreateContactMechDialog" button-text="Create Contact Mech">
+            <form-single name="CreateContactMech" transition="contactMech">
+                <auto-fields-entity entity-name="com.party.ContactMech" field-type="edit"/>
+                <field name="contactMechTypeId">
+                    <default-field title="Contact Mech Type">
+                        <drop-down>
+                            <list-options list="contactMechList" key="${contactMechTypeId}"/>
+                        </drop-down>
+                    </default-field>
+                </field>
+                <field name="submit">
+                    <default-field title="Submit"><submit/></default-field>
+                </field>
+            </form-single>
+        </container-dialog>
+
+        <!--Container for the screen ContactMech entity-->
+        <container>
+            <label text="Contact Mechanism List" type="h2"/>
+            <form-list name="ContactMech" list="contactMechList">
+                <field name="contactMechId">
+                    <header-field title="ContactMech ID" show-order-by="true"/>
+                    <default-field><display/></default-field>
+                </field>
+                <field name="contactMechTypeId">
+                    <header-field title="Contact Mech Type ID" show-order-by="true"/>
+                    <default-field><display/></default-field>
+                </field>
+                <field name="infoString">
+                    <header-field title="Information" show-order-by="true"/>
+                    <default-field><display/></default-field>
+                </field>
+                <field name="createDate">
+                    <header-field title="Create Date" show-order-by="true"/>
+                    <default-field><display/></default-field>
+                </field>
+            </form-list>
+        </container>
+
+    </widgets>
+</screen>

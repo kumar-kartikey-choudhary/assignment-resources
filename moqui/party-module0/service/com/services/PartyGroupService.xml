@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-2.1.xsd">
+
+    <service verb="create" noun="PartyGroup" type="inline">
+        <in-parameters>
+            <parameter name="partyId" required="true"/>
+            <parameter name="groupName" required="true"/>
+            <parameter name="description"/>
+        </in-parameters>
+        <out-parameters>
+            <parameter name="partyId" required="true"/>
+        </out-parameters>
+        <actions>
+            <entity-make-value entity-name="com.party.PartyGroup" value-field="partyGroup" map="context"/>
+            <entity-create value-field="partyGroup"/>
+            <set field="partyId" from="partyGroup.partyId"/>
+        </actions>
+    </service>
+</services>

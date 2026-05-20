@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-facade-xml>
+    <moqui.security.ArtifactGroup artifactGroupId="PARTY_MGR"
+                                  description="Party Management Module Group"/>
+
+
+    <moqui.security.ArtifactGroupMember artifactGroupId="PARTY_MGR"
+                                        artifactName="component://party/screen/PartyScreenManagement.xml"
+                                        artifactTypeEnumId="AT_XML_SCREEN"
+                                        inheritAuthz="Y"/>
+
+    <moqui.security.ArtifactGroupMember artifactGroupId="PARTY_MGR"
+                                        artifactName="component://party/service/com/services/PartyService.xml"
+                                        artifactTypeEnumId="AT_SERVICE"
+                                        inheritAuthz="Y"/>
+
+
+    <moqui.security.ArtifactAuthz artifactAuthzId="PARTY_ANON_AUTH"
+                                  userGroupId="ALL_USERS"
+                                  artifactGroupId="PARTY_MGR"
+                                  authzTypeEnumId="AUTHZT_ALWAYS"
+                                  authzActionEnumId="AUTHZA_ALL"/>
+</entity-facade-xml>

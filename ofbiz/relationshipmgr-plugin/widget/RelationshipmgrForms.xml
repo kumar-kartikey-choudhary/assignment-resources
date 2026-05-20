@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
+
+    <!-- 1. The Party Dashboard List -->
+    <form name="ListRmParties" type="list" list-name="parties" paginate-target="main" default-title-style="tableheadcol" default-widget-style="tabletextcol" style="basic-table hover-bar">
+        <actions>
+            <entity-condition entity-name="RmParty" list="parties">
+                <order-by field-name="partyId"/>
+            </entity-condition>
+        </actions>
+        <row-actions>
+            <!-- Call the external Groovy script for row processing -->
+            <script location="component://relationshipmgr/groovyScripts/GetPartyDetails.groovy"/>
+        </row-actions>
+
+        <field name="partyId" title="Party ID">
+            <display/>
+        </field>
+        <field name="partyTypeId" title="Type">
+            <display/>
+        </field>
+    </form>
+
+
+    <!-- 2. Create Person Form -->
+    <form name="AddRmPerson" type="single" target="createRmPerson" title="Create Person" style="basic-form">
+        <field name="partyId" title="Party ID">
+            <text size="20" placeholder="Optional/Auto-generated"/>
+        </field>
+        <field name="partyTypeId" operator="equals" type="person">
+            <hidden value="PERSON"/>
+        </field>
+        <field name="firstName" title="First Name" widget-style="required">
+            <text size="30" placeholder="First Name"/>
+        </field>
+        <field name="lastName" title="Last Name" widget-style="required">
+            <text size="30" placeholder="Last Name"/>
+        </field>
+        <field name="birthDate" title="Birth Date">
+            <date-time type="date"/>
+        </field>
+        <field name="submitButton" title="Create">
+            <submit button-type="button"/>
+        </field>
+    </form>
+
+    <!-- 3. Create Organization Form -->
+    <form name="AddRmOrganization" type="single" target="createRmOrganization" title="Create Organization" style="basic-form">
+        <field name="partyId" title="Party ID">
+            <text size="20" placeholder="Optional/Auto-generated"/>
+        </field>
+        <field name="partyTypeId">
+            <hidden value="ORGANIZATION"/>
+        </field>
+        <field name="organizationName" title="Organization Name" widget-style="required">
+            <text size="40" placeholder="e.g. Department of Engineering"/>
+        </field>
+        <field name="submitButton" title="Create">
+            <submit button-type="button"/>
+        </field>
+    </form>
+
+    <!-- 3b. Unified Create Party Form -->
+    <form name="AddRmPartyUnified" type="single" target="createRmPartyUnifiedAction" title="Create Party" style="basic-form">
+        <field name="partyId" title="Party ID">
+            <text size="20" placeholder="Optional/Auto-generated"/>
+        </field>
+        <field name="partyTypeId" title="Party Type" widget-style="required">
+            <drop-down allow-empty="false">
+                <entity-options entity-name="RmPartyType" key-field-name="partyTypeId" description="${description}">
+                    <entity-order-by field-name="description"/>
+                </entity-options>
+            </drop-down>
+        </field>
+        <field name="submitButton" title="Create">
+            <submit button-type="button"/>
+        </field>
+    </form>
+
+    <!-- 4. Assign Role Form -->
+    <form name="AddRmPartyRole" type="single" target="createRmPartyRole" title="Assign Role" style="basic-form">
+        <field name="partyId" title="Party ID" widget-style="required">
+            <drop-down allow-empty="false">
+                <entity-options entity-name="RmParty" key-field-name="partyId" description="${partyId}">
+                    <entity-order-by field-name="partyId"/>
+                </entity-options>
+            </drop-down>
+        </field>
+        <field name="roleTypeId" title="Role" widget-style="required">
+            <drop-down allow-empty="false">
+                <entity-options entity-name="RmRoleType" key-field-name="roleTypeId" description="${description}">
+                    <entity-order-by field-name="description"/>
+                </entity-options>
+            </drop-down>
+        </field>
+        <field name="submitButton" title="Assign Role">
+            <submit button-type="button"/>
+        </field>
+    </form>
+
+    <!-- 5. Find Party Form -->
+    <form name="FindRmParty" type="single" target="findRmParty" default-entity-name="RmParty" style="basic-form">
+        <field name="noConditionFind">
+            <hidden value="Y"/>
+        </field>
+        <field name="partyId" title="Party ID">
+            <text-find/>
+        </field>
+        <field name="partyTypeId" title="Party Type">
+            <drop-down allow-empty="true">
+                <entity-options entity-name="RmPartyType" key-field-name="partyTypeId" description="${description}">
+                    <entity-order-by field-name="description"/>
+                </entity-options>
+            </drop-down>
+        </field>
+        <field name="searchButton" title="Search">
+            <submit button-type="button"/>
+        </field>
+    </form>
+
+    <!-- 6. List Party Grid -->
+    <form name="ListRmParty" type="list" list-name="listIt" paginate-target="findRmParty" default-entity-name="RmParty" odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
+        <actions>
+            <service service-name="performFind" result-map="result" result-map-list="listIt">
+                <field-map field-name="inputFields" from-field="partyCtx"/>
+                <field-map field-name="entityName" value="RmParty"/>
+                <field-map field-name="orderBy" from-field="parameters.sortField"/>
+                <field-map field-name="viewIndex" from-field="viewIndex"/>
+                <field-map field-name="viewSize" from-field="viewSize"/>
+            </service>
+        </actions>
+        <row-actions>
+            <script location="component://relationshipmgr/groovyScripts/GetPartyDetails.groovy"/>
+        </row-actions>
+        <field name="partyId" title="Party ID">
+            <display/>
+        </field>
+        <field name="partyTypeId" title="Type">
+            <display/>
+        </field>
+    </form>
+
+    <!-- 7. Find Contact Mech Form -->
+    <form name="FindRmContactMech" type="single" target="findRmContactMech" default-entity-name="RmPartyContactMech" style="basic-form">
+        <field name="noConditionFind">
+            <hidden value="Y"/>
+        </field>
+        <field name="contactMechId" title="Contact Mech ID">
+            <text-find/>
+        </field>
+        <field name="searchButton" title="Search">
+            <submit button-type="button"/>
+        </field>
+    </form>
+
+    <!-- 8. List Contact Mech Grid -->
+    <form name="ListRmContactMech" type="list" list-name="listIt" paginate-target="findRmContactMech" default-entity-name="RmPartyContactMech" odd-row-style="alternate-row" header-row-style="header-row-2" default-table-style="basic-table hover-bar">
+        <actions>
+            <service service-name="performFind" result-map="result" result-map-list="listIt">
+                <field-map field-name="inputFields" from-field="contactMechCtx"/>
+                <field-map field-name="entityName" value="RmPartyContactMech"/>
+                <field-map field-name="orderBy" from-field="parameters.sortField"/>
+                <field-map field-name="viewIndex" from-field="viewIndex"/>
+                <field-map field-name="viewSize" from-field="viewSize"/>
+            </service>
+        </actions>
+        <row-actions>
+            <script location="component://relationshipmgr/groovyScripts/GetContactMechDetails.groovy"/>
+        </row-actions>
+        <field name="contactMechId" title="Contact Mech ID">
+            <display/>
+        </field>
+        <field name="contactMechTypeId" title="Type">
+            <display/>
+        </field>
+
+    </form>
+
+    <!-- 9. Create Contact Mech Form -->
+    <form name="AddRmContactMech" type="single" target="createRmContactMechAction" title="Create Contact Mechanism" style="basic-form">
+        <field name="contactMechId" title="Comtact Mech ID">
+            <text size="20" placeholder="Optional/Auto-generated"/>
+        </field>
+        <field name="contactMechTypeId" title="Type" widget-style="required">
+            <drop-down allow-empty="false">
+                <entity-options entity-name="RmContactMechType" key-field-name="contactMechTypeId" description="${description}">
+                    <entity-order-by field-name="description"/>
+                </entity-options>
+            </drop-down>
+        </field>
+
+        <!-- Standard text for Email or Web address -->
+        <field name="infoString" title="Info String (Email / Web Address)">
+            <text size="40" placeholder="e.g. email@example.com or www.example.com"/>
+        </field>
+
+        <field name="submitButton" title="Create">
+            <submit button-type="button"/>
+        </field>
+    </form>
+
+
+
+
+    <form name="AddRmPostalAddress" type="single" target="createRmPostalAddressAction" title="Create Postal Address" style="basic-form">
+
+        <field name="contactMechId" title="Contact Mech Id" widget-style="required">
+            <drop-down allow-empty="false">
+                <entity-options entity-name="RmContactMech" key-field-name="contactMechId" description="${description}">
+                    <entity-order-by field-name="description"/>
+                </entity-options>
+            </drop-down>
+        </field>
+
+        <!-- Postal Address fields -->
+        <field name="address1" title="Address Line 1">
+            <text size="40" placeholder="e.g. 123 Main St"/>
+        </field>
+        <field name="address2" title="Address Line 2">
+            <text size="40"/>
+        </field>
+        <field name="city" title="City">
+            <text size="30" placeholder="e.g. New York"/>
+        </field>
+        <field name="stateProvinceGeoId" title="State/Province Geo ID">
+            <text size="10" placeholder="e.g. NY"/>
+        </field>
+        <field name="postalCode" title="Postal Code">
+            <text size="10" placeholder="e.g. 10001"/>
+        </field>
+        <field name="countryGeoId" title="Country Geo ID">
+            <text size="10" placeholder="e.g. USA"/>
+        </field>
+
+    </form>
+
+    <form name="AddRmTelecomNumber" type="single" target="createRmTelecomNumberAction" title="Create Telecom Number" style="basic-form">
+
+        <field name="contactMechId" title="Contact Mech Id" widget-style="required">
+            <drop-down allow-empty="false">
+                <entity-options entity-name="RmContactMech" key-field-name="contactMechId" description="${description}">
+                    <entity-order-by field-name="description"/>
+                </entity-options>
+            </drop-down>
+        </field>
+
+        <!-- Telecom Number fields -->
+        <field name="countryCode" title="Country Code">
+            <text size="5" placeholder="e.g. 1"/>
+        </field>
+        <field name="areaCode" title="Area Code">
+            <text size="5" placeholder="e.g. 212"/>
+        </field>
+        <field name="contactNumber" title="Contact Number">
+            <text size="15" placeholder="e.g. 555-0199"/>
+        </field>
+
+        <field name="submitButton" title="Create">
+            <submit button-type="button"/>
+        </field>
+    </form>
+
+
+</forms>

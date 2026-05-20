@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-3.xsd">
+
+
+    <subscreens default-item="PartyScreen" >
+<!--
+            this is required when your parent file name and sub-folder name will be different
+            It is not good practice to use this type because it creates confusion and naming conflicts
+-->
+
+<!--        <subscreens-item name="PartyScreen" location="component://party/screen/Party/PartyScreen.xml"/>
+            <subscreens-item name="PersonScreen" location="component://party/screen/Party/PersonScreen.xml"/>
+            <subscreens-item name="PartyGroupScreen" location="component://party/screen/Party/PartyGroupScreen.xml"/>
+            <subscreens-item name="ContactMechScreen" location="component://party/screen/Party/ContactMechScreen.xml"/>
+            <subscreens-item name="PartyContactMechScreen" location="component://party/screen/Party/PartyContactMechScreen.xml"/>
+-->
+    </subscreens>
+    <widgets>
+        <subscreens-menu id="tab" type="tab"/>
+        <subscreens-active/>
+    </widgets>
+</screen>

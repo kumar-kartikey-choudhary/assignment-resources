@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+<entity-engine-xml>
+    <!-- Party Types (Seeded first for FK constraints) -->
+    <RmPartyType partyTypeId="PERSON" description="Person"/>
+    <RmPartyType partyTypeId="ORGANIZATION" description="Organization"/>
+
+    <!-- Party Roles -->
+    <RmRoleType roleTypeId="CUSTOMER" description="Customer"/>
+    <RmRoleType roleTypeId="EMPLOYEE" description="Employee"/>
+    <RmRoleType roleTypeId="EMPLOYER" description="Employer"/>
+    <RmRoleType roleTypeId="STUDENT" description="Student"/>
+    <RmRoleType roleTypeId="TEACHER" description="Teaching Staff"/>
+    <RmRoleType roleTypeId="DEPARTMENT" description="Academic Department"/>
+    <RmRoleType roleTypeId="COLLEGE" description="Educational Institution"/>
+
+    <!-- Contact Mechanism Types -->
+    <RmContactMechType contactMechTypeId="POSTAL_ADDRESS" description="Postal Address"/>
+    <RmContactMechType contactMechTypeId="TELECOM_NUMBER" description="Telecommunications Number"/>
+    <RmContactMechType contactMechTypeId="EMAIL_ADDRESS" description="Electronic Mail Address"/>
+    <!-- <RmContactMechType contactMechTypeId="WEB_ADDRESS" description="World Wide Web Address"/> -->
+
+    <!-- Contact Mechanism Purposes -->
+    <RmContactMechPurposeType contactMechPurposeTypeId="PRIMARY_LOCATION" description="Primary Location"/>
+    <RmContactMechPurposeType contactMechPurposeTypeId="BILLING_LOCATION" description="Billing Location"/>
+    <RmContactMechPurposeType contactMechPurposeTypeId="PRIMARY_PHONE" description="Primary Phone Number"/>
+    <RmContactMechPurposeType contactMechPurposeTypeId="PRIMARY_EMAIL" description="Primary Email Address"/>
+    <RmContactMechPurposeType contactMechPurposeTypeId="OFFICE_PHONE" description="Office Phone Number"/>
+</entity-engine-xml>

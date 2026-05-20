@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<screen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/xml-screen-3.xsd">
+
+    <parameter name="partyId" />
+    <transition name="createPartyGroup">
+        <service-call name="com.services.PartyGroupService.create#PartyGroup" />
+        <default-response url="."/>
+    </transition>
+
+
+    <actions>
+        <!--Entity finds for the screen PartyGroup entity-->
+        <entity-find entity-name="com.party.PartyGroup" list="partyGroupList"><search-form-inputs/></entity-find>
+    </actions>
+    <widgets>
+
+        <container-dialog id="CreatePartyGroupDialog" button-text="Create Party Group">
+            <form-single name="CreatePartyGroup" transition="createPartyGroup">
+                <auto-fields-entity entity-name="com.party.PartyGroup" field-type="edit"/>
+                <field name="partyId" from="partyId">
+                    <default-field>
+                        <text-line size="30"/>
+                    </default-field>
+                </field>
+                <field name="submit">
+                    <default-field title="Submit"><submit/></default-field>
+                </field>
+            </form-single>
+        </container-dialog>
+
+        <!--Container for the screen PartyGroup entity-->
+        <container>
+            <label text="Party Group  List" type="h2"/>
+            <form-list name="PartyGroup" list="partyGroupList">
+                <field name="partyId">
+                    <header-field title="Party ID" show-order-by="true"/>
+                    <default-field><display/></default-field>
+                </field>
+                <field name="groupName">
+                    <header-field title="Group Name" show-order-by="true"/>
+                    <default-field><display/></default-field>
+                </field>
+                <field name="description">
+                    <header-field title="Description" show-order-by="true"/>
+                    <default-field><display/></default-field>
+                </field>
+            </form-list>
+        </container>
+    </widgets>
+
+</screen>

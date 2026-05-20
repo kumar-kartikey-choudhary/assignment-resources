@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:noNamespaceSchemaLocation="http://moqui.org/xsd/service-definition-2.1.xsd">
+
+    <service verb="create" noun="Party" type="script"
+             location="component://party/script/createParty.groovy">
+        <in-parameters>
+            <parameter name="partyId"  required="true"/>
+            <parameter name="partyTypeEnumId" required="true"/>
+            <parameter name="createDate" />
+        </in-parameters>
+        <out-parameters>
+            <parameter name="partyId" required="true"/>
+        </out-parameters>
+<!--        <actions>-->
+<!--            <entity-make-value entity-name="com.party.Party" value-field="party"/>-->
+<!--            <entity-set value-field="party" include="all" />-->
+<!--            <if condition="!party.partyId">-->
+<!--                <entity-sequenced-id-primary value-field="party"/>-->
+<!--            </if>-->
+<!--            <entity-create value-field="party"/>-->
+<!--        </actions>-->
+    </service>
+
+</services>

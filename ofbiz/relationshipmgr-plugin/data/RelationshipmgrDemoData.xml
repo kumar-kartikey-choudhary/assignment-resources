@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
+<entity-engine-xml>
+    <!-- ============================================== -->
+    <!-- 1. Supertype Parties                           -->
+    <!-- ============================================== -->
+    <RmParty partyId="COLLEGE_MIT" partyTypeId="ORGANIZATION"/>
+    <RmParty partyId="DEPT_CS" partyTypeId="ORGANIZATION"/>
+    <RmParty partyId="STUDENT_AKSHANSH" partyTypeId="PERSON"/>
+    <RmParty partyId="TEACHER_DOE" partyTypeId="PERSON"/>
+
+    <!-- ============================================== -->
+    <!-- 2. Subtypes (Person & Organization Details)   -->
+    <!-- ============================================== -->
+    <RmOrganization partyId="COLLEGE_MIT" organizationName="Massachusetts Institute of Technology"/>
+    <RmOrganization partyId="DEPT_CS" organizationName="Computer Science and Engineering Department"/>
+
+    <RmPerson partyId="STUDENT_AKSHANSH" firstName="Akshansh" lastName="Kumar" birthDate="2000-05-18"/>
+    <RmPerson partyId="TEACHER_DOE" firstName="John" lastName="Doe" birthDate="1980-01-01"/>
+
+    <!-- ============================================== -->
+    <!-- 3. Assign Roles (Intersection Entity)          -->
+    <!-- ============================================== -->
+    <RmPartyRole partyId="COLLEGE_MIT" roleTypeId="COLLEGE"/>
+    <RmPartyRole partyId="DEPT_CS" roleTypeId="DEPARTMENT"/>
+
+    <RmPartyRole partyId="STUDENT_AKSHANSH" roleTypeId="STUDENT"/>
+    <RmPartyRole partyId="STUDENT_AKSHANSH" roleTypeId="CUSTOMER"/>
+
+    <RmPartyRole partyId="TEACHER_DOE" roleTypeId="TEACHER"/>
+    <RmPartyRole partyId="TEACHER_DOE" roleTypeId="EMPLOYEE"/>
+
+    <!-- ============================================== -->
+    <!-- 4. Contact Mechanisms (Addresses & Phones)     -->
+    <!-- ============================================== -->
+
+    <!-- Akshansh's Email (Standard Web String) -->
+    <RmContactMech contactMechId="CM_AKSHANSH_EMAIL" contactMechTypeId="EMAIL_ADDRESS" infoString="akshansh.k@example.com"/>
+
+    <!-- MIT's Postal Address (Postal Subtype) -->
+    <RmContactMech contactMechId="CM_MIT_ADDR" contactMechTypeId="POSTAL_ADDRESS"/>
+    <RmPostalAddress contactMechId="CM_MIT_ADDR" address1="77 Massachusetts Avenue" city="Cambridge" stateProvinceGeoId="MA" postalCode="02139" countryGeoId="USA"/>
+
+    <!-- Prof. Doe's Office Phone (Telecom Subtype) -->
+    <RmContactMech contactMechId="CM_DOE_PHONE" contactMechTypeId="TELECOM_NUMBER"/>
+    <RmTelecomNumber contactMechId="CM_DOE_PHONE" countryCode="1" areaCode="617" contactNumber="555-0199"/>
+
+    <!-- ============================================== -->
+    <!-- 5. Bind Contacts to Parties (Temporal mapping) -->
+    <!-- ============================================== -->
+    <RmPartyContactMech partyId="STUDENT_AKSHANSH" contactMechId="CM_AKSHANSH_EMAIL" fromDate="2026-05-18 12:00:00.0"/>
+    <RmPartyContactMechPurpose partyId="STUDENT_AKSHANSH" contactMechId="CM_AKSHANSH_EMAIL" contactMechPurposeTypeId="PRIMARY_EMAIL" fromDate="2026-05-18 12:00:00.0"/>
+
+    <RmPartyContactMech partyId="COLLEGE_MIT" contactMechId="CM_MIT_ADDR" fromDate="2000-01-01 00:00:00.0"/>
+    <RmPartyContactMechPurpose partyId="COLLEGE_MIT" contactMechId="CM_MIT_ADDR" contactMechPurposeTypeId="PRIMARY_LOCATION" fromDate="2000-01-01 00:00:00.0"/>
+
+    <RmPartyContactMech partyId="TEACHER_DOE" contactMechId="CM_DOE_PHONE" fromDate="2020-09-01 09:00:00.0"/>
+    <RmPartyContactMechPurpose partyId="TEACHER_DOE" contactMechId="CM_DOE_PHONE" contactMechPurposeTypeId="OFFICE_PHONE" fromDate="2020-09-01 09:00:00.0"/>
+</entity-engine-xml>
