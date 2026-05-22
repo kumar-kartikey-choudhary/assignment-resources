@@ -1,0 +1,67 @@
+<entity-engine-xml>
+
+    <!-- Product Catalog -->
+    <ProdCatalog prodCatalogId="WINTER_CATALOG" catalogName="WINTER COLLECTION PRODUCT" useQuickAdd="Y"/>
+
+    <!-- Categories -->
+    <ProductCategory productCategoryId="WINTER_COLLECTION" productCategoryTypeId="CATALOG_CATEGORY" categoryName="Winter Collection"/>
+
+    <ProductCategory productCategoryId="WOMEN_WINTER_WEAR" productCategoryTypeId="CATALOG_CATEGORY" categoryName="Women Winter Wear"/>
+
+    <ProductCategory productCategoryId="MEN_WINTER_WEAR" productCategoryTypeId="CATALOG_CATEGORY" categoryName="Men Winter Wear"/>
+
+    <ProductCategory productCategoryId="WINTER_ELECTRONICS" productCategoryTypeId="CATALOG_CATEGORY" categoryName="Winter Electronics"/>
+
+    <!-- Category Rollups -->
+    <ProductCategoryRollup parentProductCategoryId="WINTER_COLLECTION" productCategoryId="WOMEN_WINTER_WEAR" fromDate="2024-01-01 00:00:00.0"/>
+
+    <ProductCategoryRollup parentProductCategoryId="WINTER_COLLECTION" productCategoryId="MEN_WINTER_WEAR" fromDate="2024-01-01 00:00:00.0"/>
+
+    <ProductCategoryRollup parentProductCategoryId="WINTER_COLLECTION" productCategoryId="WINTER_ELECTRONICS" fromDate="2024-01-01 00:00:00.0"/>
+
+    <!-- Catalog Category -->
+    <ProdCatalogCategory prodCatalogId="WINTER_CATALOG" productCategoryId="WINTER_COLLECTION" fromDate="2024-01-01 00:00:00.0" sequenceNum="1" prodCatalogCategoryTypeId="PCCT_BROWSE_ROOT"/>
+
+    <!-- Products -->
+    <Product productId="WOMEN-JACKET" productTypeId="FINISHED_GOOD" internalName="Women's Winter Jacket" isVirtual="N" isVariant="N"/>
+
+    <Product productId="WOMEN-BOOTS" productTypeId="FINISHED_GOOD" internalName="Women's Snow Boots" isVirtual="N" isVariant="N"/>
+
+    <Product productId="MEN-JACKET" productTypeId="FINISHED_GOOD" internalName="Men's Winter Jacket" isVirtual="N" isVariant="N"/>
+
+    <Product productId="MEN-GLOVES" productTypeId="FINISHED_GOOD" internalName="Men's Wool Gloves" isVirtual="N" isVariant="N"/>
+
+    <Product productId="ROOM-HEATER" productTypeId="FINISHED_GOOD" internalName="Electric Room Heater" isVirtual="N" isVariant="N"/>
+
+    <Product productId="HEATING-BLANKET" productTypeId="FINISHED_GOOD" internalName="Electric Heating Blanket" isVirtual="N" isVariant="N"/>
+
+    <!-- Product Prices -->
+    <ProductPrice productId="WOMEN-JACKET" productPricePurposeId="PURCHASE" productPriceTypeId="DEFAULT_PRICE" currencyUomId="USD" productStoreGroupId="NA" fromDate="2024-01-01 00:00:00.0" price="150.00"/>
+
+    <ProductPrice productId="WOMEN-BOOTS" productPricePurposeId="PURCHASE" productPriceTypeId="DEFAULT_PRICE" currencyUomId="USD" productStoreGroupId="NA" fromDate="2024-01-01 00:00:00.0" price="95.00"/>
+
+    <ProductPrice productId="MEN-JACKET" productPricePurposeId="PURCHASE" productPriceTypeId="DEFAULT_PRICE" currencyUomId="USD" productStoreGroupId="NA" fromDate="2024-01-01 00:00:00.0" price="135.00"/>
+
+    <ProductPrice productId="MEN-GLOVES" productPricePurposeId="PURCHASE" productPriceTypeId="DEFAULT_PRICE" currencyUomId="USD" productStoreGroupId="NA" fromDate="2024-01-01 00:00:00.0" price="30.00"/>
+
+    <ProductPrice productId="ROOM-HEATER" productPricePurposeId="PURCHASE" productPriceTypeId="DEFAULT_PRICE" currencyUomId="USD" productStoreGroupId="NA" fromDate="2024-01-01 00:00:00.0" price="220.00"/>
+
+    <ProductPrice productId="HEATING-BLANKET" productPricePurposeId="PURCHASE" productPriceTypeId="DEFAULT_PRICE" currencyUomId="USD" productStoreGroupId="NA" fromDate="2024-01-01 00:00:00.0" price="180.00"/>
+
+    <!-- Product Category Members -->
+    <ProductCategoryMember productCategoryId="WOMEN_WINTER_WEAR" productId="WOMEN-JACKET" fromDate="2024-01-01 00:00:00.0" sequenceNum="1"/>
+
+    <ProductCategoryMember productCategoryId="WOMEN_WINTER_WEAR" productId="WOMEN-BOOTS" fromDate="2024-01-01 00:00:00.0" sequenceNum="2"/>
+
+    <ProductCategoryMember productCategoryId="MEN_WINTER_WEAR" productId="MEN-JACKET" fromDate="2024-01-01 00:00:00.0" sequenceNum="1"/>
+
+    <ProductCategoryMember productCategoryId="MEN_WINTER_WEAR" productId="MEN-GLOVES" fromDate="2024-01-01 00:00:00.0" sequenceNum="2"/>
+
+    <ProductCategoryMember productCategoryId="WINTER_ELECTRONICS" productId="ROOM-HEATER" fromDate="2024-01-01 00:00:00.0" sequenceNum="1"/>
+
+    <ProductCategoryMember productCategoryId="WINTER_ELECTRONICS" productId="HEATING-BLANKET" fromDate="2024-01-01 00:00:00.0" sequenceNum="2"/>
+
+    <!-- Product Store Catalog -->
+    <ProductStoreCatalog productStoreId="9000" prodCatalogId="WINTER_CATALOG" fromDate="2024-01-01 00:00:00.0" sequenceNum="2"/>
+
+</entity-engine-xml>
