@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
+<entitymodel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://ofbiz.apache.org/dtds/entitymodel.xsd">
+    <!-- ========================================================= -->
+    <!-- ======================== Defaults ======================= -->
+    <!-- ========================================================= -->
+    <title>Entity of Productinformationmgr Component</title>
+    <description>Product Information Manager Custom Entities</description>
+
+    <!-- PimProductType -->
+    <entity entity-name="PimProductType" package-name="org.apache.ofbiz.productinformationmgr" title="Product Type Entity">
+        <field name="productTypeId" type="id"/>
+        <field name="parentTypeId" type="id"/>
+        <field name="isDigital" type="indicator"/>
+        <field name="hasTable" type="indicator"/>
+        <field name="description" type="description"/>
+        <prim-key field="productTypeId"/>
+        <!-- <relation type="one" fk-name="FK_PIM_PT_PARENT" title="Parent" rel-entity-name="PimProductType">
+            <key-map field-name="parentTypeId" rel-field-name="productTypeId"/>
+        </relation> -->
+    </entity>
+
+    <!-- PimProduct -->
+    <entity entity-name="PimProduct" package-name="org.apache.ofbiz.productinformationmgr" title="Product Entity">
+        <field name="productId" type="id"/>
+        <field name="productTypeId" type="id"/>
+        <field name="PrimaryProductCategoryId" type="id" />
+        <field name="facilityId" type="id" />
+        <field name="productName" type="name"/>
+        <field name="isVirtual" type="indicator"/>
+        <field name="isVarient" type="indicator"/>
+        <field name="createdDate" type="date-time"/>
+        <prim-key field="productId"/>
+        <relation type="one" fk-name="FK_PIM_PROD_TYPE" rel-entity-name="PimProductType">
+            <key-map field-name="productTypeId"/>
+        </relation>
+    </entity>
+
+    <!-- PimProductContentType -->
+    <entity entity-name="PimProductContentType" package-name="org.apache.ofbiz.productinformationmgr" title="Product Content Type Entity">
+        <field name="productContentTypeId" type="id"/>
+        <field name="parentTypeId" type="id"/>
+        <field name="hasTable" type="indicator"/>
+        <field name="description" type="description"/>
+        <prim-key field="productContentTypeId"/>
+    </entity>
+
+    <!-- PimProductContent -->
+    <entity entity-name="PimProductContent" package-name="org.apache.ofbiz.productinformationmgr" title="Product Content Entity">
+        <field name="contentId" type="id"/>
+        <field name="productId" type="id"/>
+        <field name="productContentTypeId" type="id"/>
+        <field name="fromDate" type="date-time"/>
+        <field name="thruDate" type="date-time"/>
+        <prim-key field="contentId"/>
+        <prim-key field="productId"/>
+        <prim-key field="productContentTypeId"/>
+        <prim-key field="fromDate"/>
+        <relation type="one" fk-name="FK_PIM_PC_PROD" rel-entity-name="PimProduct">
+            <key-map field-name="productId"/>
+        </relation>
+        <relation type="one" fk-name="FK_PIM_PC_TYPE" rel-entity-name="PimProductContentType">
+            <key-map field-name="productContentTypeId"/>
+        </relation>
+    </entity>
+
+
+    <!-- PimProductAssocType -->
+    <entity entity-name="PimProductAssocType" package-name="org.apache.ofbiz.productinformationmgr" title="Product Association Type Entity">
+        <field name="productAssocTypeId" type="id"/>
+        <field name="parentTypeId" type="id"/>
+        <field name="hasTable" type="indicator"/>
+        <field name="description" type="description"/>
+        <prim-key field="productAssocTypeId"/>
+    </entity>
+
+    <!-- PimProductAssoc -->
+    <entity entity-name="PimProductAssoc" package-name="org.apache.ofbiz.productinformationmgr" title="Product Association Entity">
+        <field name="productId" type="id"/>
+        <field name="toProductId" type="id"/>
+        <field name="productAssocTypeId" type="id"/>
+        <field name="fromDate" type="date-time"/>
+        <field name="thruDate" type="date-time"/>
+        <field name="quantity" type="numeric" />
+        <prim-key field="productId"/>
+        <prim-key field="toProductId"/>
+        <prim-key field="productAssocTypeId"/>
+        <prim-key field="fromDate"/>
+        <relation type="one" fk-name="FK_PIM_PA_PROD" rel-entity-name="PimProduct">
+            <key-map field-name="productId"/>
+        </relation>
+        <relation type="one" fk-name="FK_PIM_PA_TOPROD" title="To" rel-entity-name="PimProduct">
+            <key-map field-name="toProductId" rel-field-name="productId"/>
+        </relation>
+        <relation type="one" fk-name="FK_PIM_PA_TYPE" rel-entity-name="PimProductAssocType">
+            <key-map field-name="productAssocTypeId"/>
+        </relation>
+    </entity>
+
+
+
+    <!-- PimGoodIdentificationType -->
+    <entity entity-name="PimGoodIdentificationType" package-name="org.apache.ofbiz.productinformationmgr" title="Good Identification Type Entity">
+        <field name="goodIdentificationTypeId" type="id"/>
+        <field name="parentTypeId" type="id"/>
+        <field name="hasTable" type="indicator"/>
+        <field name="description" type="description"/>
+        <prim-key field="goodIdentificationTypeId"/>
+    </entity>
+
+
+    <!-- PimGoodIdentification -->
+    <entity entity-name="PimGoodIdentification" package-name="org.apache.ofbiz.productinformationmgr" title="Good Identification Entity">
+        <field name="goodIdentificationTypeId" type="id"/>
+        <field name="productId" type="id"/>
+        <field name="idValue" type="value"/>
+        <prim-key field="goodIdentificationTypeId"/>
+        <prim-key field="productId"/>
+    </entity>
+
+
+
+    <!-- PimProductCategoryType -->
+    <entity entity-name="PimProductCategoryType" package-name="org.apache.ofbiz.productinformationmgr" title="Product Category Type Entity">
+        <field name="productCategoryTypeId" type="id"/>
+        <field name="parentTypeId" type="id"/>
+        <field name="hasTable" type="indicator"/>
+        <field name="description" type="description"/>
+        <prim-key field="productCategoryTypeId"/>
+    </entity>
+
+    <!-- PimProductCategory -->
+    <entity entity-name="PimProductCategory" package-name="org.apache.ofbiz.productinformationmgr" title="Product Category Entity">
+        <field name="productCategoryId" type="id"/>
+        <field name="productCategoryTypeId" type="id"/>
+        <field name="primaryParentCategoryTypeId" type="id"/>
+        <field name="categoryName" type="name"/>
+        <field name="description" type="description"/>
+        <prim-key field="productCategoryId"/>
+        <relation type="one" fk-name="FK_PIM_PCAT_TYPE" rel-entity-name="PimProductCategoryType">
+            <key-map field-name="productCategoryTypeId"/>
+        </relation>
+    </entity>
+
+    <!-- PimProductCategoryMember -->
+    <entity entity-name="PimProductCategoryMember" package-name="org.apache.ofbiz.productinformationmgr" title="Product Category Member Entity">
+        <field name="productId" type="id"/>
+        <field name="productCategoryId" type="id"/>
+        <field name="fromDate" type="date-time"/>
+        <field name="thruDate" type="date-time"/>
+        <field name="quantity" type="numeric"/>
+        <prim-key field="productId"/>
+        <prim-key field="productCategoryId"/>
+        <prim-key field="fromDate"/>
+        <relation type="one" fk-name="FK_PIM_PCM_PROD" rel-entity-name="PimProduct">
+            <key-map field-name="productId"/>
+        </relation>
+        <relation type="one" fk-name="FK_PIM_PCM_CAT" rel-entity-name="PimProductCategory">
+            <key-map field-name="productCategoryId"/>
+        </relation>
+    </entity>
+
+    <!-- PimProductFeatureType -->
+    <entity entity-name="PimProductFeatureType" package-name="org.apache.ofbiz.productinformationmgr" title="Product Feature Type Entity">
+        <field name="productFeatureTypeId" type="id"/>
+        <field name="parentTypeId" type="id"/>
+        <field name="hasTable" type="indicator"/>
+        <field name="description" type="description"/>
+        <prim-key field="productFeatureTypeId"/>
+    </entity>
+
+    <!-- PimProductFeature -->
+    <entity entity-name="PimProductFeature" package-name="org.apache.ofbiz.productinformationmgr" title="Product Feature Entity">
+        <field name="productFeatureId" type="id"/>
+        <field name="productFeatureTypeId" type="id"/>
+        <feild name="productFeatureCategoryId" type="id"/>
+        <field name="description" type="description"/>
+        <prim-key field="productFeatureId"/>
+        <relation type="one" fk-name="FK_PIM_PF_TYPE" rel-entity-name="PimProductFeatureType">
+            <key-map field-name="productFeatureTypeId"/>
+        </relation>
+    </entity>
+
+    <!-- PimProductFeatureApplType -->
+    <entity entity-name="PimProductFeatureApplType" package-name="org.apache.ofbiz.productinformationmgr" title="Product Feature Type  Entity">
+        <field name="productFeatureApplTypeId" type="id"/>
+        <field name="parentTypeId" type="id"/>
+        <field name="hasTable" type="indicator"/>
+        <field name="description" type="description"/>
+        <prim-key field="productFeatureApplTypeId"/>
+    </entity>
+
+
+
+    <!-- PimProductFeatureAppl -->
+    <entity entity-name="PimProductFeatureAppl" package-name="org.apache.ofbiz.productinformationmgr" title="Product Feature Application Entity">
+        <field name="productId" type="id"/>
+        <field name="productFeatureId" type="id"/>
+        <field name="productFeatureApplTypeId" type="id"/>
+        <field name="fromDate" type="date-time"/>
+        <field name="thruDate" type="date-time"/>
+        <prim-key field="productId"/>
+        <prim-key field="productFeatureId"/>
+        <prim-key field="fromDate"/>
+        <relation type="one" fk-name="FK_PIM_PFA_PROD" rel-entity-name="PimProduct">
+            <key-map field-name="productId"/>
+        </relation>
+        <relation type="one" fk-name="FK_PIM_PFA_FEAT" rel-entity-name="PimProductFeature">
+            <key-map field-name="productFeatureId"/>
+        </relation>
+    </entity>
+
+    <!-- PimProductFeatureApplAttr -->
+    <entity entity-name="PimProductFeatureApplAttr" package-name="org.apache.ofbiz.productinformationmgr" title="Product Feature Attribute Entity">
+        <field name="productId" type="id"/>
+        <field name="productFeatureId" type="id"/>
+        <field name="fromDate" type="date-time"/>
+        <field name="attrName" type="date-time"/>
+        <prim-key field="productId"/>
+        <prim-key field="productFeatureId"/>
+        <prim-key field="fromDate"/>
+        <prim-key field="attrName"/>
+        <relation type="one" fk-name="FK_PIM_PFA_PROD" rel-entity-name="PimProduct">
+            <key-map field-name="productId"/>
+        </relation>
+        <relation type="one" fk-name="FK_PIM_PFA_FEAT" rel-entity-name="PimProductFeature">
+            <key-map field-name="productFeatureId"/>
+        </relation>
+    </entity>
+
+    <!-- PimProductPriceType -->
+    <entity entity-name="PimProductPriceType" package-name="org.apache.ofbiz.productinformationmgr" title="Product Price Type Entity">
+        <field name="productPriceTypeId" type="id"/>
+        <field name="description" type="description"/>
+        <prim-key field="productPriceTypeId"/>
+    </entity>
+
+    <!-- PimProductPricePurpose -->
+    <entity entity-name="PimProductPricePurpose" package-name="org.apache.ofbiz.productinformationmgr" title="Product Price Purpose Entity">
+        <field name="productPricePurposeId" type="id"/>
+        <field name="description" type="description"/>
+        <prim-key field="productPricePurposeId"/>
+    </entity>
+
+    <!-- PimProductPaymentMethodType -->
+    <entity entity-name="PimProductPaymentMethodType" package-name="org.apache.ofbiz.productinformationmgr" title="Product Payment Method Type Entity">
+        <field name="productId" type="id"/>
+        <field name="paymentMethodTypeId" type="id"/>
+        <field name="productPricePurposeId" type="id"/>
+        <field name="fromDate" type="date-time"/>
+        <field name="thruDate" type="date-time"/>
+        <field name="sequenceNum" type="numeric"/>
+        <prim-key field="productId"/>
+        <prim-key field="paymentMethodTypeId"/>
+        <prim-key field="productPricePurposeId"/>
+        <prim-key field="fromDate"/>
+        <relation type="one" fk-name="FK_PIM_PPMT_PROD" rel-entity-name="PimProduct">
+            <key-map field-name="productId"/>
+        </relation>
+        <relation type="one" fk-name="FK_PIM_PPMT_PPP" rel-entity-name="PimProductPricePurpose">
+            <key-map field-name="productPricePurposeId"/>
+        </relation>
+    </entity>
+
+    <!-- PimProductPrice -->
+    <entity entity-name="PimProductPrice" package-name="org.apache.ofbiz.productinformationmgr" title="Product Price Entity">
+        <field name="productId" type="id"/>
+        <field name="productPriceTypeId" type="id"/>
+        <field name="productPricePurposeId" type="id"/>
+        <field name="currencyUomId" type="id"/>
+        <field name="productStoreGroupId" type="id"/>
+        <field name="fromDate" type="date-time"/>
+        <field name="thruDate" type="date-time"/>
+        <field name="price" type="currency-precise"/>
+
+        <prim-key field="productId"/>
+        <prim-key field="productPriceTypeId"/>
+        <prim-key field="productPricePurposeId"/>
+        <prim-key field="currencyUomId"/>
+        <prim-key field="productStoreGroupId"/>
+        <prim-key field="fromDate"/>
+        <relation type="one" fk-name="FK_PIM_PPRC_PROD" rel-entity-name="PimProduct">
+            <key-map field-name="productId"/>
+        </relation>
+        <relation type="one" fk-name="FK_PIM_PPRC_TYPE" rel-entity-name="PimProductPriceType">
+            <key-map field-name="productPriceTypeId"/>
+        </relation>
+        <relation type="one" fk-name="FK_PIM_PPRC_PURP" rel-entity-name="PimProductPricePurpose">
+            <key-map field-name="productPricePurposeId"/>
+        </relation>
+    </entity>
+
+
+
+</entitymodel>

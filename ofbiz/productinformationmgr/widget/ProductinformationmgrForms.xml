@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form http://ofbiz.apache.org/dtds/widget-form.xsd">
+
+    <!-- 1. PimProduct Forms -->
+    <form name="ListPimProducts" type="list" list-name="products" paginate-target="main" default-title-style="tableheadcol" default-widget-style="tabletextcol" style="basic-table hover-bar">
+        <actions>
+            <entity-condition entity-name="PimProduct" list="products">
+                <order-by field-name="productId"/>
+            </entity-condition>
+        </actions>
+        <field name="productId" title="Product ID">
+            <display/>
+        </field>
+        <field name="productName" title="Product Name">
+            <display/>
+        </field>
+        <field name="productTypeId" title="Type">
+            <display/>
+        </field>
+        <field name="isVirtual" title="Virtual">
+            <display/>
+        </field>
+        <field name="isVarient" title="Variant">
+            <display/>
+        </field>
+        <field name="createdDate" title="Created Date">
+            <display/>
+        </field>
+        <!-- <field name="deleteLink" title=" " widget-style="buttontext">
+            <hyperlink description="Delete" target="deletePimProduct" also-parameter="false">
+                <parameter param-name="productId"/>
+            </hyperlink>
+        </field> -->
+    </form>
+
+    <form name="AddPimProduct" type="single" target="createPimProduct" title="Create Product" style="basic-form">
+        <field name="productId" title="Product ID">
+            <text size="20" placeholder="Optional/Auto-generated"/>
+        </field>
+        <field name="productName" title="Product Name" widget-style="required">
+            <text size="30" placeholder="e.g. Smartphone"/>
+        </field>
+        <field name="productTypeId" title="Product Type" widget-style="required">
+            <drop-down allow-empty="false">
+                <entity-options entity-name="PimProductType" description="${description}"/>
+            </drop-down>
+        </field>
+        <field name="isVirtual" title="Is Virtual?" widget-style="required">
+            <drop-down allow-empty="false">
+                <option key="Y" description="Yes"/>
+                <option key="N" description="No"/>
+            </drop-down>
+        </field>
+        <field name="isVarient" title="Is Variant?" widget-style="required">
+            <drop-down allow-empty="false">
+                <option key="N" description="No"/>
+                <option key="Y" description="Yes"/>
+            </drop-down>
+        </field>
+        <field name="CreatedDate" title="Created Date">
+            <date-time/>
+        </field>
+        <field name="submitButton" title="Create Product">
+            <submit button-type="button"/>
+        </field>
+    </form>
+
+    <!-- 2. PimProductPrice Forms -->
+    <form name="ListPimProductPrices" type="list" list-name="prices" paginate-target="pricing" style="basic-table hover-bar">
+        <actions>
+            <entity-condition entity-name="PimProductPrice" list="prices">
+                <order-by field-name="productId"/>
+            </entity-condition>
+        </actions>
+        <field name="productId" title="Product ID">
+            <display/>
+        </field>
+        <field name="productPriceTypeId" title="Price Type">
+            <display/>
+        </field>
+        <field name="productPricePurposeId" title="Price Purpose">
+            <display/>
+        </field>
+        <field name="currencyUomId" title="Currency">
+            <display/>
+        </field>
+        <field name="productStoreGroupId" title="Store Group">
+            <display/>
+        </field>
+        <field name="price" title="Price">
+            <display/>
+        </field>
+        <field name="fromDate" title="From Date">
+            <display/>
+        </field>
+    </form>
+
+    <form name="AddPimProductPrice" type="single" target="createPimProductPrice" title="Add Product Price" style="basic-form">
+        <field name="productId" title="Product" widget-style="required">
+            <drop-down allow-empty="false">
+                <entity-options entity-name="PimProduct" description="${productName} [${productId}]"/>
+            </drop-down>
+        </field>
+        <field name="productPriceTypeId" title="Price Type" widget-style="required">
+            <drop-down allow-empty="false">
+                <entity-options entity-name="PimProductPriceType" description="${description}"/>
+            </drop-down>
+        </field>
+        <field name="productPricePurposeId" title="Price Purpose" widget-style="required">
+            <drop-down allow-empty="false">
+                <entity-options entity-name="PimProductPricePurpose" description="${description}"/>
+            </drop-down>
+        </field>
+        <field name="currencyUomId" title="Currency UOM" widget-style="required">
+            <text size="10" placeholder="e.g. USD"/>
+        </field>
+        <field name="productStoreGroupId" title="Store Group" widget-style="required">
+            <text size="20" placeholder="e.g. _NA_"/>
+        </field>
+        <field name="fromDate" title="From Date">
+            <date-time/>
+        </field>
+        <field name="price" title="Price" widget-style="required">
+            <text size="10" placeholder="e.g. 799.99"/>
+        </field>
+        <field name="submitButton" title="Add Price">
+            <submit button-type="button"/>
+        </field>
+    </form>
+
+    <!-- 3. PimProductContent Forms -->
+    <form name="ListPimProductContents" type="list" list-name="contents" paginate-target="main" style="basic-table hover-bar">
+        <actions>
+            <entity-condition entity-name="PimProductContent" list="contents">
+                <order-by field-name="productId"/>
+            </entity-condition>
+        </actions>
+        <field name="productContentId" title="Content ID">
+            <display/>
+        </field>
+        <field name="productId" title="Product ID">
+            <display/>
+        </field>
+        <field name="productContentTypeId" title="Content Type">
+            <display/>
+        </field>
+        <field name="contentLocation" title="Location">
+            <display/>
+        </field>
+        <!-- <field name="deleteLink" title=" " widget-style="buttontext">
+            <hyperlink description="Delete" target="deletePimProductContent" also-parameter="false">
+                <parameter param-name="productContentId"/>
+            </hyperlink>
+        </field> -->
+    </form>
+
+    <form name="AddPimProductContent" type="single" target="createPimProductContent" title="Add Product Content" style="basic-form">
+        <field name="productContentId" title="Content ID">
+            <text size="20" placeholder="Optional/Auto-generated"/>
+        </field>
+        <field name="productId" title="Product" widget-style="required">
+            <drop-down allow-empty="false">
+                <entity-options entity-name="PimProduct" description="${productName} [${productId}]"/>
+            </drop-down>
+        </field>
+        <field name="productContentTypeId" title="Content Type" widget-style="required">
+            <drop-down allow-empty="false">
+                <entity-options entity-name="PimProductContentType" key-field-name="productContentTypeId" description="${description}"/>
+            </drop-down>
+        </field>
+        <field name="contentLocation" title="Content Location/URL" widget-style="required">
+            <text size="40" placeholder="e.g. /images/product.jpg"/>
+        </field>
+        <field name="submitButton" title="Add Content">
+            <submit button-type="button"/>
+        </field>
+    </form>
+
+    <!-- 4. PimProductCategory Forms -->
+    <form name="ListPimProductCategories" type="list" list-name="categories" paginate-target="productCategories" style="basic-table hover-bar">
+        <actions>
+            <entity-condition entity-name="PimProductCategory" list="categories">
+                <order-by field-name="productCategoryId"/>
+            </entity-condition>
+        </actions>
+        <field name="productCategoryId" title="Category ID">
+            <display/>
+        </field>
+        <field name="categoryName" title="Category Name">
+            <display/>
+        </field>
+        <field name="productCategoryTypeId" title="Type">
+            <display/>
+        </field>
+        <!-- <field name="deleteLink" title=" " widget-style="buttontext">
+            <hyperlink description="Delete" target="deletePimProductCategory" also-parameter="false">
+                <parameter param-name="productCategoryId"/>
+            </hyperlink>
+        </field> -->
+    </form>
+
+    <form name="AddPimProductCategory" type="single" target="createPimProductCategory" title="Create Category" style="basic-form">
+        <field name="productCategoryId" title="Category ID">
+            <text size="20" placeholder="e.g. CAT_SMARTPHONES"/>
+        </field>
+        <field name="categoryName" title="Category Name" widget-style="required">
+            <text size="30" placeholder="e.g. Smartphones"/>
+        </field>
+        <field name="productCategoryTypeId" title="Category Type" widget-style="required">
+            <drop-down allow-empty="false">
+                <entity-options entity-name="PimProductCategoryType" description="${description}"/>
+            </drop-down>
+        </field>
+        <field name="submitButton" title="Create Category">
+            <submit button-type="button"/>
+        </field>
+    </form>
+
+    <!-- 5. PimProductCategoryMember Forms -->
+    <form name="ListPimProductCategoryMembers" type="list" list-name="members" paginate-target="productCategories" style="basic-table hover-bar">
+        <actions>
+            <entity-condition entity-name="PimProductCategoryMember" list="members">
+                <order-by field-name="productCategoryId"/>
+            </entity-condition>
+        </actions>
+        <field name="productCategoryId" title="Category ID">
+            <display/>
+        </field>
+        <field name="productId" title="Product ID">
+            <display/>
+        </field>
+        <field name="fromDate" title="From Date">
+            <display/>
+        </field>
+        <!-- <field name="deleteLink" title=" " widget-style="buttontext">
+            <hyperlink description="Remove" target="deletePimProductCategoryMember" also-parameter="false">
+                <parameter param-name="productId"/>
+                <parameter param-name="productCategoryId"/>
+                <parameter param-name="fromDate"/>
+            </hyperlink>
+        </field> -->
+    </form>
+
+    <form name="AddPimProductCategoryMember" type="single" target="createPimProductCategoryMember" title="Assign Product to Category" style="basic-form">
+        <field name="productCategoryId" title="Category" widget-style="required">
+            <drop-down allow-empty="false">
+                <entity-options entity-name="PimProductCategory" description="${categoryName} [${productCategoryId}]"/>
+            </drop-down>
+        </field>
+        <field name="productId" title="Product" widget-style="required">
+            <drop-down allow-empty="false">
+                <entity-options entity-name="PimProduct" description="${productName} [${productId}]"/>
+            </drop-down>
+        </field>
+        <field name="fromDate" title="From Date">
+            <date-time/>
+        </field>
+        <field name="submitButton" title="Assign Product">
+            <submit button-type="button"/>
+        </field>
+    </form>
+
+    <!-- 6. PimProductFeature Forms -->
+    <form name="ListPimProductFeatures" type="list" list-name="features" paginate-target="productFeatures" style="basic-table hover-bar">
+        <actions>
+            <entity-condition entity-name="PimProductFeature" list="features">
+                <order-by field-name="productFeatureId"/>
+            </entity-condition>
+        </actions>
+        <field name="productFeatureId" title="Feature ID">
+            <display/>
+        </field>
+        <field name="productFeatureTypeId" title="Feature Type">
+            <display/>
+        </field>
+        <field name="description" title="Description">
+            <display/>
+        </field>
+        <!-- <field name="deleteLink" title=" " widget-style="buttontext">
+            <hyperlink description="Delete" target="deletePimProductFeature" also-parameter="false">
+                <parameter param-name="productFeatureId"/>
+            </hyperlink>
+        </field> -->
+    </form>
+
+    <form name="AddPimProductFeature" type="single" target="createPimProductFeature" title="Create Product Feature" style="basic-form">
+        <field name="productFeatureId" title="Feature ID">
+            <text size="20" placeholder="e.g. FEAT_128GB"/>
+        </field>
+        <field name="productFeatureTypeId" title="Feature Type" widget-style="required">
+            <drop-down allow-empty="false">
+                <entity-options entity-name="PimProductFeatureType" description="${description}"/>
+            </drop-down>
+        </field>
+        <field name="description" title="Description" widget-style="required">
+            <text size="30" placeholder="e.g. 128 GB"/>
+        </field>
+        <field name="submitButton" title="Create Feature">
+            <submit button-type="button"/>
+        </field>
+    </form>
+
+    <!-- 7. PimProductFeatureAppl Forms -->
+    <form name="ListPimProductFeatureAppls" type="list" list-name="featureAppls" paginate-target="productFeatures" style="basic-table hover-bar">
+        <actions>
+            <entity-condition entity-name="PimProductFeatureAppl" list="featureAppls">
+                <order-by field-name="productId"/>
+            </entity-condition>
+        </actions>
+        <field name="productId" title="Product ID">
+            <display/>
+        </field>
+        <field name="productFeatureId" title="Feature ID">
+            <display/>
+        </field>
+        <field name="fromDate" title="From Date">
+            <display/>
+        </field>
+        <!-- <field name="deleteLink" title=" " widget-style="buttontext">
+            <hyperlink description="Remove" target="deletePimProductFeatureAppl" also-parameter="false">
+                <parameter param-name="productId"/>
+                <parameter param-name="productFeatureId"/>
+                <parameter param-name="fromDate"/>
+            </hyperlink>
+        </field> -->
+    </form>
+
+    <form name="AddPimProductFeatureAppl" type="single" target="createPimProductFeatureAppl" title="Apply Feature to Product" style="basic-form">
+        <field name="productId" title="Product" widget-style="required">
+            <drop-down allow-empty="false">
+                <entity-options entity-name="PimProduct" description="${productName} [${productId}]"/>
+            </drop-down>
+        </field>
+        <field name="productFeatureId" title="Feature" widget-style="required">
+            <drop-down allow-empty="false">
+                <entity-options entity-name="PimProductFeature" description="${description} [${productFeatureId}]"/>
+            </drop-down>
+        </field>
+        <field name="fromDate" title="From Date">
+            <date-time/>
+        </field>
+        <field name="submitButton" title="Apply Feature">
+            <submit button-type="button"/>
+        </field>
+    </form>
+
+    <!-- 8. PimProductAssoc Forms -->
+    <form name="ListPimProductAssocs" type="list" list-name="assocs" paginate-target="productAssocs" style="basic-table hover-bar">
+        <actions>
+            <entity-condition entity-name="PimProductAssoc" list="assocs">
+                <order-by field-name="productId"/>
+            </entity-condition>
+        </actions>
+        <field name="productId" title="From Product ID">
+            <display/>
+        </field>
+        <field name="toProductId" title="To Product ID">
+            <display/>
+        </field>
+        <field name="productAssocTypeId" title="Assoc Type">
+            <display/>
+        </field>
+        <field name="fromDate" title="From Date">
+            <display/>
+        </field>
+        <!-- <field name="deleteLink" title=" " widget-style="buttontext">
+            <hyperlink description="Delete" target="deletePimProductAssoc" also-parameter="false">
+                <parameter param-name="productId"/>
+                <parameter param-name="toProductId"/>
+                <parameter param-name="productAssocTypeEnumId"/>
+                <parameter param-name="fromDate"/>
+            </hyperlink>
+        </field> -->
+    </form>
+
+    <form name="AddPimProductAssoc" type="single" target="createPimProductAssoc" title="Create Product Association" style="basic-form">
+        <field name="productId" title="From Product" widget-style="required">
+            <drop-down allow-empty="false">
+                <entity-options entity-name="PimProduct" description="${productName} [${productId}]"/>
+            </drop-down>
+        </field>
+        <field name="toProductId" title="To Product" widget-style="required">
+            <drop-down allow-empty="false">
+                <entity-options entity-name="PimProduct" description="${productName} [${productId}]"/>
+            </drop-down>
+        </field>
+        <field name="productAssocTypeId" title="Association Type" widget-style="required">
+            <drop-down allow-empty="false">
+                <entity-options entity-name="PimProductAssocType" description="${description}"/>
+            </drop-down>
+        </field>
+        <field name="fromDate" title="From Date">
+            <date-time/>
+        </field>
+        <field name="submitButton" title="Associate Products">
+            <submit button-type="button"/>
+        </field>
+    </form>
+
+    <!-- 9. PimProductPriceType Forms -->
+    <form name="ListPimProductPriceTypes" type="list" list-name="priceTypes" paginate-target="pricing" style="basic-table hover-bar">
+        <actions>
+            <entity-condition entity-name="PimProductPriceType" list="priceTypes">
+                <order-by field-name="productPriceTypeId"/>
+            </entity-condition>
+        </actions>
+        <field name="productPriceTypeId" title="Price Type ID">
+            <display/>
+        </field>
+        <field name="description" title="Description">
+            <display/>
+        </field>
+    </form>
+    <form name="AddPimProductPriceType" type="single" target="createPimProductPriceType" title="Add Price Type" style="basic-form">
+        <field name="productPriceTypeId" title="Price Type ID">
+            <text size="20"/>
+        </field>
+        <field name="description" title="Description">
+            <text size="40"/>
+        </field>
+        <field name="submitButton" title="Add">
+            <submit button-type="button"/>
+        </field>
+    </form>
+
+    <!-- 10. PimProductPricePurpose Forms -->
+    <form name="ListPimProductPricePurposes" type="list" list-name="pricePurposes" paginate-target="pricing" style="basic-table hover-bar">
+        <actions>
+            <entity-condition entity-name="PimProductPricePurpose" list="pricePurposes">
+                <order-by field-name="productPricePurposeId"/>
+            </entity-condition>
+        </actions>
+        <field name="productPricePurposeId" title="Price Purpose ID">
+            <display/>
+        </field>
+        <field name="description" title="Description">
+            <display/>
+        </field>
+    </form>
+    <form name="AddPimProductPricePurpose" type="single" target="createPimProductPricePurpose" title="Add Price Purpose" style="basic-form">
+        <field name="productPricePurposeId" title="Price Purpose ID">
+            <text size="20"/>
+        </field>
+        <field name="description" title="Description">
+            <text size="40"/>
+        </field>
+        <field name="submitButton" title="Add">
+            <submit button-type="button"/>
+        </field>
+    </form>
+
+    <!-- 11. PimProductPaymentMethodType Forms -->
+    <form name="ListPimProductPaymentMethodTypes" type="list" list-name="paymentMethodTypes" paginate-target="pricing" style="basic-table hover-bar">
+        <actions>
+            <entity-condition entity-name="PimProductPaymentMethodType" list="paymentMethodTypes">
+                <order-by field-name="productId"/>
+            </entity-condition>
+        </actions>
+        <field name="productId" title="Product ID">
+            <display/>
+        </field>
+        <field name="paymentMethodTypeId" title="Payment Method Type ID">
+            <display/>
+        </field>
+        <field name="productPricePurposeId" title="Price Purpose">
+            <display/>
+        </field>
+        <field name="fromDate" title="From Date">
+            <display/>
+        </field>
+        <field name="sequenceNum" title="Sequence Num">
+            <display/>
+        </field>
+    </form>
+    <form name="AddPimProductPaymentMethodType" type="single" target="createPimProductPaymentMethodType" title="Add Payment Method Type" style="basic-form">
+        <field name="productId" title="Product" widget-style="required">
+            <drop-down allow-empty="false">
+                <entity-options entity-name="PimProduct" description="${productName} [${productId}]"/>
+            </drop-down>
+        </field>
+        <field name="paymentMethodTypeId" title="Payment Method Type ID">
+            <text size="20"/>
+        </field>
+        <field name="productPricePurposeId" title="Price Purpose" widget-style="required">
+            <drop-down allow-empty="false">
+                <entity-options entity-name="PimProductPricePurpose" description="${description}"/>
+            </drop-down>
+        </field>
+        <field name="fromDate" title="From Date">
+            <date-time/>
+        </field>
+        <field name="sequenceNum" title="Sequence Num">
+            <text size="10"/>
+        </field>
+        <field name="submitButton" title="Add">
+            <submit button-type="button"/>
+        </field>
+    </form>
+
+
+</forms>

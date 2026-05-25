@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
+<entity-engine-xml>
+    <!-- Product Types -->
+    <PimProductType productTypeId="FINISHED_GOOD" description="Finished Good"/>
+    <PimProductType productTypeId="SERVICE" description="Service"/>
+
+    <!-- Content Types -->
+    <PimProductContentType productContentTypeId="IMAGE" description="Image Asset"/>
+    <PimProductContentType productContentTypeId="DESCRIPTION" description="Product Description"/>
+
+
+    <!-- Association Types -->
+    <PimProductAssocType productAssocTypeId="PRODUCT_VARIANT" description="Variant Product (VARIENT)"/>
+    <PimProductAssocType productAssocTypeId="PRODUCT_VARIANT" description="Variant Product (VARIANT)"/>
+    <PimProductAssocType productAssocTypeId="PRODUCT_VARIANT" description="Package Component"/>
+
+    <!-- Category Types -->
+    <PimProductCategoryType productCategoryTypeId="CATALOG_CATEGORY" description="Catalog Category"/>
+    <PimProductCategoryType productCategoryTypeId="QUICK_ADD" description="Quick Add Category"/>
+
+    <!-- Feature Types -->
+    <PimProductFeatureType productFeatureTypeId="COLOR" description="Color"/>
+    <PimProductFeatureType productFeatureTypeId="STORAGE" description="Storage Capacity"/>
+    <PimProductFeatureType productFeatureTypeId="SCREEN_SIZE" description="Screen Size"/>
+
+    <!-- Price Types -->
+    <PimProductPriceType productPriceTypeId="AVERAGE_COST" description="Average Cost"/>
+    <PimProductPriceType productPriceTypeId="COMPETITIVE_PRICE" description="Competitive Price"/>
+    <PimProductPriceType productPriceTypeId="DEFAULT_PRICE" description="Default Price"/>
+    <PimProductPriceType productPriceTypeId="LIST_PRICE" description="List Price"/>
+    <PimProductPriceType productPriceTypeId="MAXIMUM_PRICE" description="Maximum Price"/>
+    <PimProductPriceType productPriceTypeId="MINIMUM_PRICE" description="Minimum Price"/>
+    <PimProductPriceType productPriceTypeId="PROMO_PRICE" description="Promotional Price"/>
+    <PimProductPriceType productPriceTypeId="SPECIAL_PROMO_PRICE" description="Special Promo Price"/>
+    <PimProductPriceType productPriceTypeId="WHOLESALE_PRICE" description="Wholesale Price"/>
+
+    <!-- Price Purposes -->
+    <PimProductPricePurpose productPricePurposeId="PURCHASE" description="Purchase"/>
+    <PimProductPricePurpose productPricePurposeId="COMPONENT_PRICE" description="Component Price"/>
+</entity-engine-xml>

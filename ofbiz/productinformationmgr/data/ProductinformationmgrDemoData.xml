@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
+<entity-engine-xml>
+    <!-- Products -->
+    <PimProduct productId="PROD10000" productName="Smartphone" productTypeId="FINISHED_GOOD" isVirtual="Y" isVarient="N"/>
+    <PimProduct productId="PROD10001" productName="Smartphone-128GB" productTypeId="FINISHED_GOOD" isVirtual="N" isVarient="Y"/>
+    <PimProduct productId="PROD10002" productName="Smartphone-256GB" productTypeId="FINISHED_GOOD" isVirtual="N" isVarient="Y"/>
+    <PimProduct productId="PROD20000" productName="Laptop" productTypeId="FINISHED_GOOD" isVirtual="Y" isVarient="N" fromDate="2023-09-01 00:00:00.0"/>
+    <PimProduct productId="PROD20001" productName="Laptop-BLACK" productTypeId="FINISHED_GOOD" isVirtual="N" isVarient="Y"/>
+    <PimProduct productId="PROM001" productName="Laptop-Phone-Promotional-Package" productTypeId="FINISHED_GOOD" isVirtual="Y" isVarient="N"/>
+
+    <!-- Product Associations -->
+    <PimProductAssoc productId="PROD10000" toProductId="PROD10001" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-01-01 00:00:00.0"/>
+    <PimProductAssoc productId="PROD10000" toProductId="PROD10002" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-01-01 00:00:00.0"/>
+    <PimProductAssoc productId="PROD20000" toProductId="PROD20001" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-09-01 00:00:00.0"/>
+    <PimProductAssoc productId="PROM001" toProductId="PROD10001" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-10-01 00:00:00.0"/>
+    <PimProductAssoc productId="PROM001" toProductId="PROD20001" productAssocTypeId="PRODUCT_VARIANT" fromDate="2023-10-01 00:00:00.0"/>
+
+    <!-- Product Categories -->
+    <PimProductCategory productCategoryId="CAT_SMARTPHONES" categoryName="Smartphones" productCategoryTypeId="CATALOG_CATEGORY"/>
+    <PimProductCategory productCategoryId="CAT_LAPTOPS" categoryName="Laptops" productCategoryTypeId="CATALOG_CATEGORY"/>
+    <PimProductCategory productCategoryId="CAT_PROMOTION" categoryName="Promotional Packages" productCategoryTypeId="CATALOG_CATEGORY"/>
+
+    <!-- Product Category Members -->
+    <PimProductCategoryMember productId="PROD10000" productCategoryId="CAT_SMARTPHONES" fromDate="2023-01-01 00:00:00.0"/>
+    <PimProductCategoryMember productId="PROD10001" productCategoryId="CAT_SMARTPHONES" fromDate="2023-01-01 00:00:00.0"/>
+    <PimProductCategoryMember productId="PROD10002" productCategoryId="CAT_SMARTPHONES" fromDate="2023-01-01 00:00:00.0"/>
+    <PimProductCategoryMember productId="PROD20000" productCategoryId="CAT_LAPTOPS" fromDate="2023-09-01 00:00:00.0"/>
+    <PimProductCategoryMember productId="PROD20001" productCategoryId="CAT_LAPTOPS" fromDate="2023-09-01 00:00:00.0"/>
+    <PimProductCategoryMember productId="PROM001" productCategoryId="CAT_PROMOTION" fromDate="2023-10-01 00:00:00.0"/>
+
+    <!-- Product Features -->
+    <PimProductFeature productFeatureId="FEAT_BLACK" productFeatureTypeId="COLOR" description="Black"/>
+    <PimProductFeature productFeatureId="FEAT_WHITE" productFeatureTypeId="COLOR" description="White"/>
+    <PimProductFeature productFeatureId="FEAT_128GB" productFeatureTypeId="STORAGE" description="128 GB"/>
+    <PimProductFeature productFeatureId="FEAT_256GB" productFeatureTypeId="STORAGE" description="256 GB"/>
+    <PimProductFeature productFeatureId="FEAT_15INCH" productFeatureTypeId="SCREEN_SIZE" description="15-inch"/>
+
+    <!-- Product Feature Applications -->
+    <PimProductFeatureAppl productId="PROD10001" productFeatureId="FEAT_128GB" fromDate="2023-01-01 00:00:00.0"/>
+    <PimProductFeatureAppl productId="PROD10002" productFeatureId="FEAT_256GB" fromDate="2023-01-01 00:00:00.0"/>
+    <PimProductFeatureAppl productId="PROD20001" productFeatureId="FEAT_BLACK" fromDate="2023-09-01 00:00:00.0"/>
+    <PimProductFeatureAppl productId="PROD20001" productFeatureId="FEAT_15INCH" fromDate="2023-09-01 00:00:00.0"/>
+
+    <!-- Product Prices -->
+    <PimProductPrice productId="PROD10001" productPriceTypeId="DEFAULT_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="_NA_" fromDate="2023-01-01 00:00:00.0" price="799.00"/>
+    <PimProductPrice productId="PROD10002" productPriceTypeId="DEFAULT_PRICE" productPricePurposeId="PURCHASE" currencyUomId="USD" productStoreGroupId="_NA_" fromDate="2023-01-01 00:00:00.0" price="899.00"/>
+</entity-engine-xml>

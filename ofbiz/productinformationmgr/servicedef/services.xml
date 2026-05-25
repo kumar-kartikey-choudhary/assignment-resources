@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://ofbiz.apache.org/dtds/services.xsd">
+    <description>Productinformationmgr Services (Create &amp; Find)</description>
+    <vendor></vendor>
+    <version>1.0</version>
+
+    <!-- Create Services -->
+    <service name="createPimProduct" default-entity-name="PimProduct" engine="entity-auto" invoke="create" auth="true">
+        <description>Create a PimProduct</description>
+        <auto-attributes mode="IN" include="pk" optional="true"/>
+        <auto-attributes mode="IN" include="nonpk" optional="true"/>
+    </service>
+    <service name="createPimProductContent" default-entity-name="PimProductContent" engine="entity-auto" invoke="create" auth="true">
+        <description>Create PimProductContent</description>
+        <auto-attributes mode="IN" include="pk" optional="true"/>
+        <auto-attributes mode="IN" include="nonpk" optional="true"/>
+    </service>
+    <service name="createPimProductPrice" default-entity-name="PimProductPrice" engine="entity-auto" invoke="create" auth="true">
+        <description>Create PimProductPrice</description>
+        <auto-attributes mode="IN" include="pk" optional="true"/>
+        <auto-attributes mode="IN" include="nonpk" optional="true"/>
+    </service>
+    <service name="createPimProductAssoc" default-entity-name="PimProductAssoc" engine="entity-auto" invoke="create" auth="true">
+        <description>Create PimProductAssoc</description>
+        <auto-attributes mode="IN" include="pk" optional="false"/>
+        <auto-attributes mode="IN" include="nonpk" optional="true"/>
+    </service>
+    <service name="createPimProductCategory" default-entity-name="PimProductCategory" engine="entity-auto" invoke="create" auth="true">
+        <description>Create PimProductCategory</description>
+        <auto-attributes mode="IN" include="pk" optional="true"/>
+        <auto-attributes mode="IN" include="nonpk" optional="true"/>
+    </service>
+    <service name="createPimProductCategoryMember" default-entity-name="PimProductCategoryMember" engine="entity-auto" invoke="create" auth="true">
+        <description>Create PimProductCategoryMember</description>
+        <auto-attributes mode="IN" include="pk" optional="false"/>
+        <auto-attributes mode="IN" include="nonpk" optional="true"/>
+    </service>
+    <service name="createPimProductFeature" default-entity-name="PimProductFeature" engine="entity-auto" invoke="create" auth="true">
+        <description>Create PimProductFeature</description>
+        <auto-attributes mode="IN" include="pk" optional="true"/>
+        <auto-attributes mode="IN" include="nonpk" optional="true"/>
+    </service>
+    <service name="createPimProductFeatureAppl" default-entity-name="PimProductFeatureAppl" engine="entity-auto" invoke="create" auth="true">
+        <description>Create PimProductFeatureAppl</description>
+        <auto-attributes mode="IN" include="pk" optional="false"/>
+        <auto-attributes mode="IN" include="nonpk" optional="true"/>
+    </service>
+    <service name="createPimGoodIdentification" default-entity-name="PimGoodIdentification" engine="entity-auto" invoke="create" auth="true">
+        <description>Create PimGoodIdentification</description>
+        <auto-attributes mode="IN" include="pk" optional="true"/>
+        <auto-attributes mode="IN" include="nonpk" optional="true"/>
+    </service>
+    <service name="createPimProductPriceType" default-entity-name="PimProductPriceType" engine="entity-auto" invoke="create" auth="true">
+        <description>Create PimProductPriceType</description>
+        <auto-attributes mode="IN" include="pk" optional="true"/>
+        <auto-attributes mode="IN" include="nonpk" optional="true"/>
+    </service>
+    <service name="createPimProductPricePurpose" default-entity-name="PimProductPricePurpose" engine="entity-auto" invoke="create" auth="true">
+        <description>Create PimProductPricePurpose</description>
+        <auto-attributes mode="IN" include="pk" optional="true"/>
+        <auto-attributes mode="IN" include="nonpk" optional="true"/>
+    </service>
+    <service name="createPimProductPaymentMethodType" default-entity-name="PimProductPaymentMethodType" engine="entity-auto" invoke="create" auth="true">
+        <description>Create PimProductPaymentMethodType</description>
+        <auto-attributes mode="IN" include="pk" optional="false"/>
+        <auto-attributes mode="IN" include="nonpk" optional="true"/>
+    </service>
+    <service name="createPimProductPriceChange" default-entity-name="PimProductPriceChange" engine="entity-auto" invoke="create" auth="true">
+        <description>Create PimProductPriceChange</description>
+        <auto-attributes mode="IN" include="pk" optional="true"/>
+        <auto-attributes mode="IN" include="nonpk" optional="true"/>
+    </service>
+
+    <!-- Find (List) Services -->
+    <service name="findPimProduct" default-entity-name="PimProduct" engine="entity-auto" invoke="find" auth="true">
+        <description>Find/List PimProduct records</description>
+        <auto-attributes mode="IN" include="pk" optional="true"/>
+        <auto-attributes mode="IN" include="nonpk" optional="true"/>
+    </service>
+    <service name="findPimProductContent" default-entity-name="PimProductContent" engine="entity-auto" invoke="find" auth="true">
+        <description>Find/List PimProductContent records</description>
+        <auto-attributes mode="IN" include="pk" optional="true"/>
+        <auto-attributes mode="IN" include="nonpk" optional="true"/>
+    </service>
+    <service name="findPimProductPrice" default-entity-name="PimProductPrice" engine="entity-auto" invoke="find" auth="true">
+        <description>Find/List PimProductPrice records</description>
+        <auto-attributes mode="IN" include="pk" optional="true"/>
+        <auto-attributes mode="IN" include="nonpk" optional="true"/>
+    </service>
+    <service name="findPimProductAssoc" default-entity-name="PimProductAssoc" engine="entity-auto" invoke="find" auth="true">
+        <description>Find/List PimProductAssoc records</description>
+        <auto-attributes mode="IN" include="pk" optional="true"/>
+        <auto-attributes mode="IN" include="nonpk" optional="true"/>
+    </service>
+    <service name="findPimProductCategory" default-entity-name="PimProductCategory" engine="entity-auto" invoke="find" auth="true">
+        <description>Find/List PimProductCategory records</description>
+        <auto-attributes mode="IN" include="pk" optional="true"/>
+        <auto-attributes mode="IN" include="nonpk" optional="true"/>
+    </service>
+    <service name="findPimProductCategoryMember" default-entity-name="PimProductCategoryMember" engine="entity-auto" invoke="find" auth="true">
+        <description>Find/List PimProductCategoryMember records</description>
+        <auto-attributes mode="IN" include="pk" optional="true"/>
+        <auto-attributes mode="IN" include="nonpk" optional="true"/>
+    </service>
+    <service name="findPimProductFeature" default-entity-name="PimProductFeature" engine="entity-auto" invoke="find" auth="true">
+        <description>Find/List PimProductFeature records</description>
+        <auto-attributes mode="IN" include="pk" optional="true"/>
+        <auto-attributes mode="IN" include="nonpk" optional="true"/>
+    </service>
+    <service name="findPimProductFeatureAppl" default-entity-name="PimProductFeatureAppl" engine="entity-auto" invoke="find" auth="true">
+        <description>Find/List PimProductFeatureAppl records</description>
+        <auto-attributes mode="IN" include="pk" optional="true"/>
+        <auto-attributes mode="IN" include="nonpk" optional="true"/>
+    </service>
+    <service name="findPimProductPriceType" default-entity-name="PimProductPriceType" engine="entity-auto" invoke="find" auth="true">
+        <description>Find/List PimProductPriceType records</description>
+        <auto-attributes mode="IN" include="pk" optional="true"/>
+        <auto-attributes mode="IN" include="nonpk" optional="true"/>
+    </service>
+    <service name="findPimProductPricePurpose" default-entity-name="PimProductPricePurpose" engine="entity-auto" invoke="find" auth="true">
+        <description>Find/List PimProductPricePurpose records</description>
+        <auto-attributes mode="IN" include="pk" optional="true"/>
+        <auto-attributes mode="IN" include="nonpk" optional="true"/>
+    </service>
+    <service name="findPimProductPaymentMethodType" default-entity-name="PimProductPaymentMethodType" engine="entity-auto" invoke="find" auth="true">
+        <description>Find/List PimProductPaymentMethodType records</description>
+        <auto-attributes mode="IN" include="pk" optional="true"/>
+        <auto-attributes mode="IN" include="nonpk" optional="true"/>
+    </service>
+    <service name="findPimProductPriceChange" default-entity-name="PimProductPriceChange" engine="entity-auto" invoke="find" auth="true">
+        <description>Find/List PimProductPriceChange records</description>
+        <auto-attributes mode="IN" include="pk" optional="true"/>
+        <auto-attributes mode="IN" include="nonpk" optional="true"/>
+    </service>
+
+</services>
