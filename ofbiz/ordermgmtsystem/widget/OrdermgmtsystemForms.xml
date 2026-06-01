@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
+<forms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://ofbiz.apache.org/Widget-Form" xsi:schemaLocation="http://ofbiz.apache.org/Widget-Form
+    http://ofbiz.apache.org/dtds/widget-form.xsd">
+
+        <!-- ===================================================== -->
+        <!-- 1. OmsOrderType Forms -->
+        <!-- ===================================================== -->
+
+        <form name="ListOmsOrderTypes" type="list" list-name="orderTypes" paginate-target="OmsOrderType" style="basic-table hover-bar">
+                <actions>
+                        <entity-condition entity-name="OmsOrderType" list="orderTypes">
+                                <order-by field-name="orderTypeId"/>
+                        </entity-condition>
+                </actions>
+                <field name="orderTypeId" title="Order Type ID">
+                        <display/>
+                </field>
+                <field name="parentTypeId" title="Parent Type ID">
+                        <display/>
+                </field>
+                <field name="hasTable" title="Has Table">
+                        <display/>
+                </field>
+                <field name="description" title="Description">
+                        <display/>
+                </field>
+        </form>
+
+        <form name="AddOmsOrderType" type="single" target="createOmsOrderType" title="Create Order Type" style="basic-form">
+                <field name="orderTypeId" title="Order Type ID">
+                        <text size="20"/>
+                </field>
+                <field name="parentTypeId" title="Parent Type ID">
+                        <drop-down allow-empty="true">
+                                <entity-options entity-name="OmsOrderType" key-field-name="orderTypeId" description="${description} [${orderTypeId}]"/>
+                        </drop-down>
+                </field>
+                <field name="hasTable" title="Has Table">
+                        <drop-down allow-empty="false">
+                                <option key="Y" description="Yes"/>
+                                <option key="N" description="No"/>
+                        </drop-down>
+                </field>
+                <field name="description" title="Description">
+                        <text size="40"/>
+                </field>
+                <field name="submitButton" title="Create Order Type">
+                        <submit button-type="button"/>
+                </field>
+        </form>
+
+        <!-- ===================================================== -->
+        <!-- 2. OmsOrderHeader Forms -->
+        <!-- ===================================================== -->
+
+        <form name="ListOmsOrderHeaders" type="list" list-name="orders" paginate-target="OmsOrderHeader" style="basic-table hover-bar">
+                <actions>
+                        <entity-condition entity-name="OmsOrderHeader" list="orders">
+                                <order-by field-name="orderId"/>
+                        </entity-condition>
+                </actions>
+                <field name="orderId" title="Order ID">
+                        <display/>
+                </field>
+                <field name="orderTypeId" title="Order Type">
+                        <display/>
+                </field>
+                <field name="orderName" title="Order Name">
+                        <display/>
+                </field>
+                <field name="externalId" title="External ID">
+                        <display/>
+                </field>
+                <field name="priority" title="Priority">
+                        <display/>
+                </field>
+                <field name="isViewed" title="Viewed">
+                        <display/>
+                </field>
+                <field name="orderDate" title="Order Date">
+                        <display/>
+                </field>
+                <field name="entryDate" title="Entry Date">
+                        <display/>
+                </field>
+                <field name="grandTotal" title="Grand Total">
+                        <display/>
+                </field>
+                <field name="currencyUom" title="Currency">
+                        <display/>
+                </field>
+                <field name="statusId" title="Status">
+                        <display/>
+                </field>
+        </form>
+
+        <form name="AddOmsOrderHeader" type="single" target="createOmsOrderHeader" title="Create Order Header" style="basic-form">
+                <field name="orderId" title="Order ID">
+                        <text size="20"/>
+                </field>
+                <field name="orderTypeId" title="Order Type" widget-style="required">
+                        <drop-down allow-empty="false">
+                                <entity-options entity-name="OmsOrderType" key-field-name="orderTypeId" description="${description} [${orderTypeId}]"/>
+                        </drop-down>
+                </field>
+                <field name="orderName" title="Order Name">
+                        <text size="30"/>
+                </field>
+                <field name="externalId" title="External ID">
+                        <text size="20"/>
+                </field>
+                <field name="priority" title="Priority">
+                        <drop-down allow-empty="false">
+                                <option key="Y" description="Yes"/>
+                                <option key="N" description="No"/>
+                        </drop-down>
+                </field>
+                <field name="isViewed" title="Viewed">
+                        <drop-down allow-empty="false">
+                                <option key="Y" description="Yes"/>
+                                <option key="N" description="No"/>
+                        </drop-down>
+                </field>
+                <field name="orderDate" title="Order Date">
+                        <date-time/>
+                </field>
+                <field name="entryDate" title="Entry Date">
+                        <date-time/>
+                </field>
+                <field name="grandTotal" title="Grand Total">
+                        <text size="10"/>
+                </field>
+                <field name="currencyUom" title="Currency">
+                        <text size="10" placeholder="USD"/>
+                </field>
+                <field name="statusId" title="Status">
+                        <text size="20"/>
+                </field>
+                <field name="submitButton" title="Create Order">
+                        <submit button-type="button"/>
+                </field>
+        </form>
+
+        <!-- ===================================================== -->
+        <!-- 3. OmsOrderItem Forms -->
+        <!-- ===================================================== -->
+
+        <form name="ListOmsOrderItems" type="list" list-name="orderItems" paginate-target="OmsOrderItem" style="basic-table hover-bar">
+                <actions>
+                        <entity-condition entity-name="OmsOrderItem" list="orderItems">
+                                <order-by field-name="orderId"/>
+                        </entity-condition>
+                </actions>
+                <field name="orderId" title="Order ID">
+                        <display/>
+                </field>
+                <field name="orderItemSeqId" title="Item Seq ID">
+                        <display/>
+                </field>
+                <field name="externalId" title="External ID">
+                        <display/>
+                </field>
+                <field name="orderItemTypeId" title="Order Item Type">
+                        <display/>
+                </field>
+                <field name="orderItemGroupSeqId" title="Group Seq ID">
+                        <display/>
+                </field>
+                <field name="productId" title="Product">
+                        <display/>
+                </field>
+                <field name="quantity" title="Quantity">
+                        <display/>
+                </field>
+                <field name="cancelQuantity" title="Cancel Quantity">
+                        <display/>
+                </field>
+                <field name="unitPrice" title="Unit Price">
+                        <display/>
+                </field>
+                <field name="statusId" title="Status">
+                        <display/>
+                </field>
+        </form>
+
+        <form name="AddOmsOrderItem" type="single" target="createOmsOrderItem" title="Create Order Item" style="basic-form">
+                <field name="orderId" title="Order" widget-style="required">
+                        <drop-down allow-empty="false">
+                                <entity-options entity-name="OmsOrderHeader" key-field-name="orderId" description="${orderId}"/>
+                        </drop-down>
+                </field>
+                <field name="orderItemSeqId" title="Order Item Seq ID">
+                        <text size="20"/>
+                </field>
+                <field name="externalId" title="External ID">
+                        <text size="20"/>
+                </field>
+                <field name="orderItemTypeId" title="Order Item Type">
+                        <drop-down allow-empty="false">
+                                <entity-options entity-name="OmsOrderItemType" key-field-name="orderItemTypeId" description="${description}"/>
+                        </drop-down>
+                </field>
+                <field name="orderItemGroupSeqId" title="Order Item Group Seq ID">
+                        <text size="20"/>
+                </field>
+                <field name="productId" title="Product ID">
+                        <text size="20"/>
+                </field>
+                <field name="quantity" title="Quantity">
+                        <text size="10"/>
+                </field>
+                <field name="cancelQuantity" title="Cancel Quantity">
+                        <text size="10"/>
+                </field>
+                <field name="unitPrice" title="Unit Price">
+                        <text size="10"/>
+                </field>
+                <field name="itemDescription" title="Item Description">
+                        <textarea cols="40" rows="2"/>
+                </field>
+                <field name="comments" title="Comments">
+                        <textarea cols="40" rows="2"/>
+                </field>
+                <field name="statusId" title="Status">
+                        <text size="20"/>
+                </field>
+                <field name="submitButton" title="Create Order Item">
+                        <submit button-type="button"/>
+                </field>
+        </form>
+
+        <!-- ===================================================== -->
+        <!-- 4. OmsOrderAdjustment Forms -->
+        <!-- ===================================================== -->
+
+        <form name="ListOmsOrderAdjustments" type="list" list-name="adjustments" paginate-target="OmsOrderAdjustment" style="basic-table hover-bar">
+                <actions>
+                        <entity-condition entity-name="OmsOrderAdjustment" list="adjustments">
+                                <order-by field-name="orderAdjustmentId"/>
+                        </entity-condition>
+                </actions>
+                <field name="orderAdjustmentId" title="Adjustment ID">
+                        <display/>
+                </field>
+                <field name="orderAdjustmentTypeId" title="Adjustment Type">
+                        <display/>
+                </field>
+                <field name="orderId" title="Order ID">
+                        <display/>
+                </field>
+                <field name="orderItemSeqId" title="Item Seq ID">
+                        <display/>
+                </field>
+                <field name="shipGroupSeqId" title="Ship Group Seq ID">
+                        <display/>
+                </field>
+                <field name="amount" title="Amount">
+                        <display/>
+                </field>
+                <field name="comments" title="Comments">
+                        <display/>
+                </field>
+                <field name="description" title="Description">
+                        <display/>
+                </field>
+        </form>
+
+        <form name="AddOmsOrderAdjustment" type="single" target="createOmsOrderAdjustment" title="Create Order Adjustment" style="basic-form">
+                <field name="orderAdjustmentId" title="Adjustment ID">
+                        <text size="20"/>
+                </field>
+                <field name="orderId" title="Order" widget-style="required">
+                        <drop-down allow-empty="false">
+                                <entity-options entity-name="OmsOrderHeader" key-field-name="orderId" description="${orderId}"/>
+                        </drop-down>
+                </field>
+                <field name="orderAdjustmentTypeId" title="Adjustment Type">
+                        <text size="20"/>
+                </field>
+                <field name="orderItemSeqId" title="Order Item Seq ID">
+                        <text size="20"/>
+                </field>
+                <field name="shipGroupSeqId" title="Ship Group Seq ID">
+                        <text size="20"/>
+                </field>
+                <field name="comments" title="Comments">
+                        <textarea cols="40" rows="2"/>
+                </field>
+                <field name="description" title="Description">
+                        <textarea cols="40" rows="2"/>
+                </field>
+                <field name="amount" title="Amount">
+                        <text size="10"/>
+                </field>
+                <field name="submitButton" title="Create Adjustment">
+                        <submit button-type="button"/>
+                </field>
+        </form>
+
+        <!-- ===================================================== -->
+        <!-- 5. OmsOrderItemType Forms -->
+        <!-- ===================================================== -->
+
+        <form name="ListOmsOrderItemTypes" type="list" list-name="orderItemTypes" paginate-target="OmsOrderItemType" style="basic-table hover-bar">
+                <actions>
+                        <entity-condition entity-name="OmsOrderItemType" list="orderItemTypes">
+                                <order-by field-name="orderItemTypeId"/>
+                        </entity-condition>
+                </actions>
+                <field name="orderItemTypeId" title="Order Item Type ID">
+                        <display/>
+                </field>
+                <field name="parentTypeId" title="Parent Type ID">
+                        <display/>
+                </field>
+                <field name="hasTable" title="Has Table">
+                        <display/>
+                </field>
+                <field name="description" title="Description">
+                        <display/>
+                </field>
+        </form>
+
+        <form name="AddOmsOrderItemType" type="single" target="createOmsOrderItemType" title="Create Order Item Type" style="basic-form">
+                <field name="orderItemTypeId" title="Order Item Type ID">
+                        <text size="20"/>
+                </field>
+                <field name="parentTypeId" title="Parent Type ID">
+                        <drop-down allow-empty="true">
+                                <entity-options entity-name="OmsOrderItemType" key-field-name="orderItemTypeId" description="${description} [${orderItemTypeId}]"/>
+                        </drop-down>
+                </field>
+                <field name="hasTable" title="Has Table">
+                        <drop-down allow-empty="false">
+                                <option key="Y" description="Yes"/>
+                                <option key="N" description="No"/>
+                        </drop-down>
+                </field>
+                <field name="description" title="Description">
+                        <text size="40"/>
+                </field>
+                <field name="submitButton" title="Create Order Item Type">
+                        <submit button-type="button"/>
+                </field>
+        </form>
+
+        <!-- ===================================================== -->
+        <!-- 6. OmsOrderContactMech Forms -->
+        <!-- ===================================================== -->
+
+        <form name="ListOmsOrderContactMechs" type="list" list-name="orderContactMechs" paginate-target="OmsOrderContactMech" style="basic-table hover-bar">
+                <actions>
+                        <entity-condition entity-name="OmsOrderContactMech" list="orderContactMechs">
+                                <order-by field-name="orderId"/>
+                        </entity-condition>
+                </actions>
+                <field name="orderId" title="Order ID">
+                        <display/>
+                </field>
+                <field name="contactMechPurposeTypeId" title="Purpose Type ID">
+                        <display/>
+                </field>
+                <field name="contactMechId" title="Contact Mech ID">
+                        <display/>
+                </field>
+        </form>
+
+        <form name="AddOmsOrderContactMech" type="single" target="createOmsOrderContactMech" title="Create Order Contact Mech" style="basic-form">
+                <field name="orderId" title="Order" widget-style="required">
+                        <drop-down allow-empty="false">
+                                <entity-options entity-name="OmsOrderHeader" key-field-name="orderId" description="${orderId}"/>
+                        </drop-down>
+                </field>
+                <field name="contactMechPurposeTypeId" title="Purpose Type ID" widget-style="required">
+                        <text size="20"/>
+                </field>
+                <field name="contactMechId" title="Contact Mech ID" widget-style="required">
+                        <text size="20"/>
+                </field>
+                <field name="submitButton" title="Create Contact Mech">
+                        <submit button-type="button"/>
+                </field>
+        </form>
+
+        <!-- ===================================================== -->
+        <!-- 7. OmsOrderTerm Forms -->
+        <!-- ===================================================== -->
+
+        <form name="ListOmsOrderTerms" type="list" list-name="orderTerms" paginate-target="OmsOrderTerm" style="basic-table hover-bar">
+                <actions>
+                        <entity-condition entity-name="OmsOrderTerm" list="orderTerms">
+                                <order-by field-name="orderId"/>
+                        </entity-condition>
+                </actions>
+                <field name="termTypeId" title="Term Type ID">
+                        <display/>
+                </field>
+                <field name="orderId" title="Order ID">
+                        <display/>
+                </field>
+                <field name="orderItemSeqId" title="Order Item Seq ID">
+                        <display/>
+                </field>
+                <field name="termValue" title="Term Value">
+                        <display/>
+                </field>
+                <field name="termDays" title="Term Days">
+                        <display/>
+                </field>
+                <field name="textValue" title="Text Value">
+                        <display/>
+                </field>
+                <field name="description" title="Description">
+                        <display/>
+                </field>
+        </form>
+
+        <form name="AddOmsOrderTerm" type="single" target="createOmsOrderTerm" title="Create Order Term" style="basic-form">
+                <field name="termTypeId" title="Term Type ID" widget-style="required">
+                        <text size="20"/>
+                </field>
+                <field name="orderId" title="Order" widget-style="required">
+                        <drop-down allow-empty="false">
+                                <entity-options entity-name="OmsOrderHeader" key-field-name="orderId" description="${orderId}"/>
+                        </drop-down>
+                </field>
+                <field name="orderItemSeqId" title="Order Item Seq ID" widget-style="required">
+                        <text size="20"/>
+                </field>
+                <field name="termValue" title="Term Value">
+                        <text size="10"/>
+                </field>
+                <field name="termDays" title="Term Days">
+                        <text size="10"/>
+                </field>
+                <field name="textValue" title="Text Value">
+                        <text size="40"/>
+                </field>
+                <field name="description" title="Description">
+                        <textarea cols="40" rows="2"/>
+                </field>
+                <field name="submitButton" title="Create Order Term">
+                        <submit button-type="button"/>
+                </field>
+        </form>
+
+</forms>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
+<entity-engine-xml>
+    <OmsOrderHeader orderId="ORD1001" orderTypeId="SALES_ORDER" orderName="HCDEV#5452" priority="2" isViewed="N" statusId="ORDER_CREATED" currencyUom="USD" grandTotal="120.00" />
+    <OmsOrderHeader orderId="ORD1002" orderTypeId="PURCHASE_ORDER" orderName="HCDEV#5453" priority="1" isViewed="Y" statusId="ORDER_APPROVED" currencyUom="USD" grandTotal="5000.00" />
+
+    <OmsOrderItem orderId="ORD1001" orderItemSeqId="00001" orderItemTypeId="PRODUCT_ORDER_ITEM" productId="PROD1001" quantity="1" unitPrice="60.00" statusId="ITEM_CREATED" itemDescription="Demo Product 1" />
+    <OmsOrderItem orderId="ORD1002" orderItemSeqId="00001" orderItemTypeId="PRODUCT_ORDER_ITEM" productId="PROD2001" quantity="11" unitPrice="500.00" statusId="ITEM_APPROVED" itemDescription="Demo Product 2" />
+
+    <OmsOrderContactMech orderId="ORD1001" contactMechPurposeTypeId="SHIPPING_LOCATION" contactMechId="9000" />
+
+    <OmsOrderAdjustment orderAdjustmentId="ADJ1001" orderAdjustmentTypeId="DISCOUNT_ADJUSTMENT" orderId="ORD1001" orderItemSeqId="00001" amount="-10.00" description="10$ discount" />
+
+    <OmsOrderTerm termTypeId="FIN_PAYMENT_TERM" orderId="ORD1002" orderItemSeqId="00001" termValue="30" termDays="30" description="Net 30" />
+</entity-engine-xml>
