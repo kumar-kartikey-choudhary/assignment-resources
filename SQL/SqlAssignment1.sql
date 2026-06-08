@@ -1,13 +1,28 @@
 use hotwax_commerce;
 
 -- 1 New Customers Acquired in June 2023
-select p.party_id, per.first_name, per.last_name , cm.info_string as email, concat(tn.country_code"-"tn.contact_number) as phone, p.created_date as entry_date, pr.role_type_id as role from party p
-																				join person per using (party_id)
-																				join party_contact_mech pcm using (party_id) 
-																				join contact_mech cm using (contact_mech_id) 
-																				Join telecom_number tn using(contact_mech_id)
-																				join party_role pr using(party_id)
-																				WHERE p.created_date >= '2023-06-01' AND p.created_date < '2023-07-01' AND pr.role_type_id = "CUSTOMER";											
+SELECT DISTINCT
+    p.party_id,
+    per.first_name,
+    per.last_name,
+    cm.info_string AS email,
+    CONCAT(tn.country_code, '-', tn.contact_number) AS phone,
+    p.created_date AS entry_date
+FROM party p
+JOIN person per
+     ON p.party_id = per.party_id
+JOIN party_role pr
+     ON p.party_id = pr.party_id
+    AND pr.role_type_id = 'CUSTOMER'
+JOIN party_contact_mech pcm
+     ON p.party_id = pcm.party_id
+JOIN contact_mech cm
+     ON pcm.contact_mech_id = cm.contact_mech_id
+JOIN telecom_number tn
+     ON pcm.contact_mech_id = tn.contact_mech_id
+WHERE p.created_date >= '2023-06-01'
+  AND p.created_date < '2023-07-01'
+  AND pr.role_type_id = "CUSTOMER";  											
 
 
 
