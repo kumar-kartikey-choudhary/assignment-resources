@@ -233,3 +233,59 @@ JOIN inventory_item i ON
 	AND i.facility_id = pf.facility_id
 WHERE
 	f.facility_type_id <> 'VIRTUAL_FACILITY';
+
+
+  
+-- Transfer Orders Without Inventory Reservation
+SELECT
+    oh.order_id AS transfer_order_id,
+    s.origin_facility_id AS from_facility_id,
+    s.destination_facility_id AS to_facility_id,
+    oi.product_id,
+    oi.quantity AS requested_quantity,
+    COALESCE(SUM(oir.quantity), 0) AS reserved_quantity,
+    oh.order_date AS transfer_date,
+    oh.status_id AS status
+FROM order_header oh
+JOIN order_item oi
+     ON oh.order_id = oi.order_id
+JOIN shipment s
+     ON oh.order_id = s.primary_order_id
+      AND s.primary_ship_group_seq_id = oi.ship_group_seq_id
+LEFT JOIN order_item_ship_grp_inv_res oir
+     ON oi.order_id = oir.order_id
+    AND oi.order_item_seq_id = oir.order_item_seq_id
+    AND oi.ship_group_seq_id = oir.ship_group_seq_id
+WHERE oh.order_type_id = 'TRANSFER_ORDER'
+GROUP BY
+    oh.order_id,
+    s.origin_facility_id ,
+    s.destination_facility_id,
+    oi.product_id,
+    oi.quantity,
+    oh.order_date,
+    oh.status_id
+HAVING COALESCE(SUM(oir.quantity), 0) < oi.quantity;
+
+
+-- Orders Without Picklist 
+SELECT
+    oh.order_id,
+    oh.order_date,
+    oh.status_id AS order_status,
+    oisg.facility_id,
+    TIMESTAMPDIFF(
+        HOUR,
+        oisg.created_stamp,
+        CURRENT_TIMESTAMP
+    ) AS duration_hours
+FROM order_header oh
+JOIN order_item_ship_group oisg
+     ON oh.order_id = oisg.order_id
+JOIN shipment s
+     ON s.primary_order_id = oh.order_id
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM picklist_shipment ps
+    WHERE ps.shipment_id = s.shipment_id
+);    
