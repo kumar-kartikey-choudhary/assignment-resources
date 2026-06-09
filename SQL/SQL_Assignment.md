@@ -1,4 +1,4 @@
-# SQL Assignments — HotWax Commerce
+# SQL Assignments 
 
 > **Database:** `hotwax_commerce`
 
