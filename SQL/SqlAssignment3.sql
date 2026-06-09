@@ -101,7 +101,7 @@ JOIN return_item ri ON
 CROSS JOIN return_adjustment ra ON
 	rh.return_id = ra.return_id
 WHERE
-	ra.return_adjustment_type_id = 'RET_MAN_ADJ';
+	ra.return_adjustment_type_id = 'APPEASEMENT';
 
 
 
