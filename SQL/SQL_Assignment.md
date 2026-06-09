@@ -454,7 +454,7 @@ SELECT
 FROM return_header rh
 JOIN return_item ri ON rh.return_id = ri.return_id
 CROSS JOIN return_adjustment ra ON rh.return_id = ra.return_id
-WHERE ra.return_adjustment_type_id = 'RET_MAN_ADJ';
+WHERE ra.return_adjustment_type_id = 'APPEASEMENT';
 ```
 
 ---
