@@ -130,7 +130,7 @@ JOIN order_payment_preference opp USING (order_id)
 JOIN order_shipment os ON oh.order_id = os.order_id
 JOIN shipment s ON s.shipment_id = os.shipment_id
 WHERE opp.status_id = 'PAYMENT_AUTHORIZED'
-  AND s.status_id = 'SHIPMENT_CREATED';
+  AND s.status_id = 'SHIPMENT_APPROVED';
 ```
 
 ---
