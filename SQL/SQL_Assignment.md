@@ -11,7 +11,7 @@
 ```sql
 SELECT p.party_id, per.first_name, per.last_name,
        cm.info_string AS email,
-       CONCAT(tn.country_code + "-" + tn.contact_number) AS phone,
+       CONCAT(tn.country_code , "-" , tn.contact_number) AS phone,
        p.created_date AS entry_date,
        pr.role_type_id AS role
 FROM party p
