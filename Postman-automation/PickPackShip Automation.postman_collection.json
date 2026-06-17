@@ -1,0 +1,172 @@
+{
+	"info": {
+		"_postman_id": "ad717e8d-a44a-42cb-b0d2-984612ffc7a0",
+		"name": "PickPackShip Automation",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "54587097",
+		"_collection_link": "https://kumarkartikey-choudhary-3756906.postman.co/workspace/Kumar-Kartikey-Choudhary's-Work~2547d7c7-9ae7-4897-83a6-c2ae366beb78/collection/54587097-ad717e8d-a44a-42cb-b0d2-984612ffc7a0?action=share&source=collection_link&creator=54587097"
+	},
+	"item": [
+		{
+			"name": "Pick Automation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (pm.response.code === 200) {",
+							"    const response = pm.response.json();",
+							"    if (response.shipmentIds && response.shipmentIds.length > 0) {",
+							"        const shipmentId = response.shipmentIds[0];",
+							"        pm.environment.set(\"shipmentId\", shipmentId);",
+							"    }",
+							"    pm.execution.setNextRequest(\"Pack Automation\");",
+							"} else {",
+							"    console.log(\"Pick request failed\");",
+							"    pm.execution.setNextRequest(null);",
+							"}",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{auth_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \n    \"packageName\":\"A\",\n    \"facilityId\":\"Austin\",\n    \"shipmentMethodTypeId\":\"STANDARD\",\n    \"statusId\":\"PICKLIST_ASSIGNED\",\n    \"pickers\":[{\n        \"partyId\":\"10054\",\n        \"roleTypeId\":\"WAREHOUSE_PICKER\"\n    }],\n    \"orderItems\":[{\n        \"orderId\":\"170\",\n        \"orderItemSeqId\":\"00101\",\n        \"shipGroupSeqId\":\"00002\",\n        \"productId\":\"M103633\",\n        \"quantity\":1\n    }]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://nextgen-maarg.hotwax.io/rest/s1/poorti/createOrderFulfillmentWave",
+					"protocol": "https",
+					"host": [
+						"nextgen-maarg",
+						"hotwax",
+						"io"
+					],
+					"path": [
+						"rest",
+						"s1",
+						"poorti",
+						"createOrderFulfillmentWave"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pack Automation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"if (pm.response.code === 200) {",
+							"    pm.execution.setNextRequest(\"Ship Automation\");",
+							"} else {",
+							"    pm.execution.setNextRequest(null);",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"shipmentId\":\"{{shipmentId}}\",\n    \"orderId\":\"170\",\n    \"facilityId\":\"Austin\",\n    \"rejectedOrderItems\":[],\n    \"shipmentPackageContents\":[]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://nextgen-maarg.hotwax.io/rest/s1/poorti/shipments/{{shipmentId}}/pack",
+					"protocol": "https",
+					"host": [
+						"nextgen-maarg",
+						"hotwax",
+						"io"
+					],
+					"path": [
+						"rest",
+						"s1",
+						"poorti",
+						"shipments",
+						"{{shipmentId}}",
+						"pack"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Ship Automation",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{auth_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"shipmentId\": \"{{shipmentId}}\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://nextgen-maarg.hotwax.io/rest/s1/poorti/shipments/{{shipmentId}}/ship",
+					"protocol": "https",
+					"host": [
+						"nextgen-maarg",
+						"hotwax",
+						"io"
+					],
+					"path": [
+						"rest",
+						"s1",
+						"poorti",
+						"shipments",
+						"{{shipmentId}}",
+						"ship"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
