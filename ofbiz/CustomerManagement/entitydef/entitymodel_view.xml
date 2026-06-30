@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
+<entitymodel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://ofbiz.apache.org/dtds/entitymodel.xsd">
+    <title>Customer Management View Entities</title>
+    <description>FindCustomerView - joins Party/Person with ContactMech data</description>
+    <version>1.0</version>
+
+    <!--
+        FindCustomerView
+        ================
+        Retrieves customer details by joining:
+
+          PTY   = Party             (root, partyId, statusId)
+          PERS  = Person            (firstName, lastName, 1:1 with Party for PERSON type)
+          EMAIL_PCM  = PartyContactMech  (link to email ContactMech)
+          EMAIL_PCMP = PartyContactMechPurpose (purpose = PRIMARY_EMAIL or EmailPrimary)
+          EMAIL_CM   = ContactMech  (type=EMAIL_ADDRESS, infoString = email address)
+          PHONE_PCM  = PartyContactMech  (link to phone ContactMech)
+          PHONE_PCMP = PartyContactMechPurpose (purpose = PRIMARY_PHONE or PhonePrimary)
+          PHONE_TN   = TelecomNumber (contactNumber, areaCode)
+          ADDR_PCM   = PartyContactMech  (link to postal ContactMech)
+          ADDR_PCMP  = PartyContactMechPurpose (purpose = PRIMARY_LOCATION or GeneralCorrespondence)
+          ADDR_PA    = PostalAddress  (address1, city, postalCode)
+
+        All contact-mechanism joins are rel-optional="true" so that customers
+        with missing phone or address data still appear in results.
+
+        The email join is the uniqueness key (contactMechPurposeTypeId = 'PRIMARY_EMAIL').
+    -->
+    <view-entity entity-name="FindCustomerView"
+            package-name="org.apache.ofbiz.party.customermgmt"
+            title="Find Customer View - Party/Person with email, phone and postal address">
+
+        <!-- Member entities -->
+        <member-entity entity-alias="PTY"       entity-name="Party"/>
+        <member-entity entity-alias="PERS"      entity-name="Person"/>
+        <!-- Email contact mechanism chain -->
+        <member-entity entity-alias="EMAIL_PCM"  entity-name="PartyContactMech"/>
+        <member-entity entity-alias="EMAIL_PCMP" entity-name="PartyContactMechPurpose"/>
+        <member-entity entity-alias="EMAIL_CM"   entity-name="ContactMech"/>
+        <!-- Phone contact mechanism chain -->
+        <member-entity entity-alias="PHONE_PCM"  entity-name="PartyContactMech"/>
+        <member-entity entity-alias="PHONE_PCMP" entity-name="PartyContactMechPurpose"/>
+        <member-entity entity-alias="PHONE_TN"   entity-name="TelecomNumber"/>
+        <!-- Postal address contact mechanism chain -->
+        <member-entity entity-alias="ADDR_PCM"   entity-name="PartyContactMech"/>
+        <member-entity entity-alias="ADDR_PCMP"  entity-name="PartyContactMechPurpose"/>
+        <member-entity entity-alias="ADDR_PA"    entity-name="PostalAddress"/>
+
+        <!-- Aliases from Party -->
+        <alias entity-alias="PTY"  name="partyId"/>
+        <alias entity-alias="PTY"  name="partyTypeId"/>
+        <alias entity-alias="PTY"  name="statusId"/>
+        <alias entity-alias="PTY"  name="createdDate"/>
+
+        <!-- Aliases from Person -->
+        <alias entity-alias="PERS" name="firstName"/>
+        <alias entity-alias="PERS" name="lastName"/>
+        <alias entity-alias="PERS" name="middleName"/>
+        <alias entity-alias="PERS" name="salutation"/>
+
+        <!-- Aliases from Email ContactMech -->
+        <alias entity-alias="EMAIL_CM"   name="emailAddress" field="infoString"/>
+        <alias entity-alias="EMAIL_PCMP" name="emailPurposeTypeId" field="contactMechPurposeTypeId"/>
+
+        <!-- Aliases from TelecomNumber -->
+        <alias entity-alias="PHONE_TN"   name="countryCode"/>
+        <alias entity-alias="PHONE_TN"   name="areaCode"/>
+        <alias entity-alias="PHONE_TN"   name="contactNumber"/>
+        <alias entity-alias="PHONE_PCMP" name="phonePurposeTypeId" field="contactMechPurposeTypeId"/>
+
+        <!-- Aliases from PostalAddress -->
+        <alias entity-alias="ADDR_PA"   name="address1"/>
+        <alias entity-alias="ADDR_PA"   name="address2"/>
+        <alias entity-alias="ADDR_PA"   name="city"/>
+        <alias entity-alias="ADDR_PA"   name="postalCode"/>
+        <alias entity-alias="ADDR_PA"   name="countryGeoId"/>
+        <alias entity-alias="ADDR_PA"   name="stateProvinceGeoId"/>
+        <alias entity-alias="ADDR_PCMP" name="addrPurposeTypeId" field="contactMechPurposeTypeId"/>
+
+        <!-- ======================================================
+             View-links
+             ====================================================== -->
+
+        <!-- Party -> Person (inner join; we only want PERSON party types) -->
+        <view-link entity-alias="PTY" rel-entity-alias="PERS">
+            <key-map field-name="partyId"/>
+        </view-link>
+
+        <!-- Party -> Email PartyContactMech (left outer) -->
+        <view-link entity-alias="PTY" rel-entity-alias="EMAIL_PCM" rel-optional="true">
+            <key-map field-name="partyId"/>
+        </view-link>
+        <!-- EMAIL_PCM -> EMAIL_PCMP (left outer; purpose filter applied in service) -->
+        <view-link entity-alias="EMAIL_PCM" rel-entity-alias="EMAIL_PCMP" rel-optional="true">
+            <key-map field-name="partyId"/>
+            <key-map field-name="contactMechId"/>
+        </view-link>
+        <!-- EMAIL_PCM -> EMAIL_CM (left outer) -->
+        <view-link entity-alias="EMAIL_PCM" rel-entity-alias="EMAIL_CM" rel-optional="true">
+            <key-map field-name="contactMechId"/>
+        </view-link>
+
+        <!-- Party -> Phone PartyContactMech (left outer) -->
+        <view-link entity-alias="PTY" rel-entity-alias="PHONE_PCM" rel-optional="true">
+            <key-map field-name="partyId"/>
+        </view-link>
+        <!-- PHONE_PCM -> PHONE_PCMP (left outer) -->
+        <view-link entity-alias="PHONE_PCM" rel-entity-alias="PHONE_PCMP" rel-optional="true">
+            <key-map field-name="partyId"/>
+            <key-map field-name="contactMechId"/>
+        </view-link>
+        <!-- PHONE_PCM -> PHONE_TN (left outer) -->
+        <view-link entity-alias="PHONE_PCM" rel-entity-alias="PHONE_TN" rel-optional="true">
+            <key-map field-name="contactMechId"/>
+        </view-link>
+
+        <!-- Party -> Postal PartyContactMech (left outer) -->
+        <view-link entity-alias="PTY" rel-entity-alias="ADDR_PCM" rel-optional="true">
+            <key-map field-name="partyId"/>
+        </view-link>
+        <!-- ADDR_PCM -> ADDR_PCMP (left outer) -->
+        <view-link entity-alias="ADDR_PCM" rel-entity-alias="ADDR_PCMP" rel-optional="true">
+            <key-map field-name="partyId"/>
+            <key-map field-name="contactMechId"/>
+        </view-link>
+        <!-- ADDR_PCM -> ADDR_PA (left outer) -->
+        <view-link entity-alias="ADDR_PCM" rel-entity-alias="ADDR_PA" rel-optional="true">
+            <key-map field-name="contactMechId"/>
+        </view-link>
+
+    </view-entity>
+
+</entitymodel>

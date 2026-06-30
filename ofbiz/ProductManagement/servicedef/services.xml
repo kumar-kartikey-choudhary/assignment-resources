@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
+<services xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://ofbiz.apache.org/dtds/services.xsd">
+    <description>Product Management Services</description>
+    <vendor>OFBiz</vendor>
+    <version>1.0</version>
+
+    <!-- ============================================================
+         findProduct Service
+         Searches for products matching optional filters.
+         Supports case-insensitive / partial-match on name.
+         ============================================================ -->
+    <service name="findProduct" engine="groovy" location="component://ProductManagement/src/main/groovy/org/apache/ofbiz/productmgmt/FindProduct.groovy" invoke="findProduct" auth="true" export="true">
+        <description>Find products by optional filters: productId, productName, price range, category, and feature type</description>
+        <attribute name="productId" type="String" mode="IN" optional="true"/>
+        <attribute name="productName" type="String" mode="IN" optional="true"/>
+        <attribute name="productCategoryId" type="String" mode="IN" optional="true"/>
+        <attribute name="minPrice" type="BigDecimal" mode="IN" optional="true"/>
+        <attribute name="maxPrice" type="BigDecimal" mode="IN" optional="true"/>
+        <attribute name="productFeatureTypeId" type="String" mode="IN" optional="true">
+            <description>Filter by any ProductFeatureType (e.g. COLOR, SIZE)</description>
+        </attribute>
+        <attribute name="productFeatureId" type="String" mode="IN" optional="true"/>
+        <!-- Output -->
+        <attribute name="productList" type="java.util.List" mode="OUT" optional="false"/>
+    </service>
+
+    <!-- ============================================================
+         createProduct Service
+         Creates a new Product record plus an optional CategoryMember
+         and a LIST_PRICE ProductPrice record.
+         Enforces unique productName.
+         ============================================================ -->
+    <service name="createProduct" engine="groovy" location="component://ProductManagement/src/main/groovy/org/apache/ofbiz/productmgmt/CreateProduct.groovy" invoke="createProduct" auth="true" export="true">
+        <description>Create a new product (name must be unique). Optionally assigns a category and sets a list price.</description>
+        <!-- Required inputs -->
+        <attribute name="productName" type="String" mode="IN" optional="false"/>
+        <attribute name="productCategoryId" type="String" mode="IN" optional="false"/>
+        <attribute name="price" type="BigDecimal" mode="IN" optional="false"/>
+        <!-- Optional inputs -->
+        <attribute name="internalName" type="String" mode="IN" optional="true"/>
+        <attribute name="description" type="String" mode="IN" optional="true"/>
+        <attribute name="productTypeId" type="String" mode="IN" optional="true"/>
+        <attribute name="currencyUomId" type="String" mode="IN" optional="true"/>
+        <attribute name="brandName" type="String" mode="IN" optional="true"/>
+        <!-- Output -->
+        <attribute name="productId" type="String" mode="OUT" optional="false"/>
+    </service>
+
+    <!-- ============================================================
+         updateProduct Service
+         Updates price and/or feature applicability of an existing product.
+         ============================================================ -->
+    <service name="updateProduct" engine="groovy" location="component://ProductManagement/src/main/groovy/org/apache/ofbiz/productmgmt/UpdateProduct.groovy" invoke="updateProduct" auth="true" export="true">
+        <description>Update an existing product's price and features</description>
+        <!-- Required -->
+        <attribute name="productId" type="String" mode="IN" optional="false"/>
+        <!-- Optional update fields -->
+        <attribute name="productName" type="String" mode="IN" optional="true"/>
+        <attribute name="price" type="BigDecimal" mode="IN" optional="true"/>
+        <attribute name="currencyUomId" type="String" mode="IN" optional="true"/>
+        <attribute name="productFeatureId" type="String" mode="IN" optional="true"/>
+        <attribute name="productFeatureApplTypeId" type="String" mode="IN" optional="true"/>
+        <attribute name="description" type="String" mode="IN" optional="true"/>
+        <attribute name="internalName" type="String" mode="IN" optional="true"/>
+    </service>
+
+    <!-- ============================================================
+         assocProductToVirtual Service
+         Establishes a PRODUCT_VARIANT association from a virtual product
+         to a variant product via the ProductAssoc entity.
+         ============================================================ -->
+    <service name="assocProductToVirtual" engine="groovy" location="component://ProductManagement/src/main/groovy/org/apache/ofbiz/productmgmt/AssocProductToVirtual.groovy" invoke="assocProductToVirtual" auth="true" export="true">
+        <description>Associate a variant product to a virtual product (creates ProductAssoc with type PRODUCT_VARIANT)</description>
+        <attribute name="productId" type="String" mode="IN" optional="false">
+            <description>The variant product ID</description>
+        </attribute>
+        <attribute name="virtualProductId" type="String" mode="IN" optional="false">
+            <description>The virtual product ID</description>
+        </attribute>
+        <!-- Output -->
+        <attribute name="fromDate" type="java.sql.Timestamp" mode="OUT" optional="false"/>
+    </service>
+
+    <!-- ============================================================
+         updateProductVariant Service
+         Updates an existing virtual→variant ProductAssoc record
+         (e.g. updates the thruDate or sequenceNum).
+         ============================================================ -->
+    <service name="updateProductVariant" engine="groovy" location="component://ProductManagement/src/main/groovy/org/apache/ofbiz/productmgmt/UpdateProductVariant.groovy" invoke="updateProductVariant" auth="true" export="true">
+        <description>Update an existing virtual-variant product association</description>
+        <attribute name="productId" type="String" mode="IN" optional="false"/>
+        <attribute name="virtualProductId" type="String" mode="IN" optional="false"/>
+        <attribute name="fromDate" type="java.sql.Timestamp" mode="IN" optional="false">
+            <description>The fromDate of the existing ProductAssoc to be updated</description>
+        </attribute>
+        <attribute name="thruDate" type="java.sql.Timestamp" mode="IN" optional="true"/>
+        <attribute name="sequenceNum" type="Long" mode="IN" optional="true"/>
+        <attribute name="reason" type="String" mode="IN" optional="true"/>
+    </service>
+
+</services>

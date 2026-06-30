@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing,
+software distributed under the License is distributed on an
+"AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, either express or implied.  See the License for the
+specific language governing permissions and limitations
+under the License.
+-->
+
+<entitymodel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://ofbiz.apache.org/dtds/entitymodel.xsd">
+    <!-- ========================================================= -->
+    <!-- ======================== Defaults ======================= -->
+    <!-- ========================================================= -->
+    <title>Entity of an Apache OFBiz Component - ProductManagement</title>
+    <description>Product Management View Entities</description>
+    <version>1.0</version>
+
+    <!--
+        FindProductView: joins Product, ProductCategoryMember, ProductPrice,
+        and ProductFeatureAndAppl to expose all data needed for product searches.
+
+        Joins:
+          PROD  -> Product           (primary table)
+          PCM   -> ProductCategoryMember (left-outer, product may have no category)
+          PP    -> ProductPrice      (left-outer, filter on LIST_PRICE; product may have no price)
+          PFA   -> ProductFeatureAndAppl (left-outer, product may have no features)
+    -->
+    <view-entity entity-name="FindProductView"
+            package-name="org.apache.ofbiz.product.productmgmt"
+            title="Find Product View - joins Product, Category, Price and Feature">
+        <!-- Member entities -->
+        <member-entity entity-alias="PROD" entity-name="Product"/>
+        <member-entity entity-alias="PCM"  entity-name="ProductCategoryMember"/>
+        <member-entity entity-alias="PP"   entity-name="ProductPrice"/>
+        <member-entity entity-alias="PFA"  entity-name="ProductFeatureAndAppl"/>
+
+        <!-- Aliases from Product -->
+        <alias entity-alias="PROD" name="productId"/>
+        <alias entity-alias="PROD" name="productName"/>
+        <alias entity-alias="PROD" name="internalName"/>
+        <alias entity-alias="PROD" name="productTypeId"/>
+        <alias entity-alias="PROD" name="isVirtual"/>
+        <alias entity-alias="PROD" name="isVariant"/>
+        <alias entity-alias="PROD" name="description"/>
+        <alias entity-alias="PROD" name="brandName"/>
+        <alias entity-alias="PROD" name="smallImageUrl"/>
+
+        <!-- Aliases from ProductCategoryMember -->
+        <alias entity-alias="PCM" name="productCategoryId"/>
+
+        <!-- Aliases from ProductPrice (LIST_PRICE) -->
+        <alias entity-alias="PP" name="price" field="price"/>
+        <alias entity-alias="PP" name="productPriceTypeId"/>
+        <alias entity-alias="PP" name="currencyUomId"/>
+
+        <!-- Aliases from ProductFeatureAndAppl -->
+        <alias entity-alias="PFA" name="productFeatureId"/>
+        <alias entity-alias="PFA" name="productFeatureTypeId"/>
+        <alias entity-alias="PFA" name="featureDescription" field="description"/>
+
+        <!-- Joins -->
+        <!-- Product -> ProductCategoryMember (left outer join; product may not be in a category) -->
+        <view-link entity-alias="PROD" rel-entity-alias="PCM" rel-optional="true">
+            <key-map field-name="productId"/>
+        </view-link>
+
+        <!-- Product -> ProductPrice (left outer join; filter by LIST_PRICE applied in service) -->
+        <view-link entity-alias="PROD" rel-entity-alias="PP" rel-optional="true">
+            <key-map field-name="productId"/>
+        </view-link>
+
+        <!-- Product -> ProductFeatureAndAppl (left outer join; product may have no features) -->
+        <view-link entity-alias="PROD" rel-entity-alias="PFA" rel-optional="true">
+            <key-map field-name="productId"/>
+        </view-link>
+    </view-entity>
+
+</entitymodel>

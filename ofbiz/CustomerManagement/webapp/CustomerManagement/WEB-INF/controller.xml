@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site-conf xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://ofbiz.apache.org/Site-Conf"
+        xsi:schemaLocation="http://ofbiz.apache.org/Site-Conf http://ofbiz.apache.org/dtds/site-conf.xsd">
+
+    <include location="component://common/webcommon/WEB-INF/common-controller.xml"/>
+    <description>Customer Management Component Site Configuration</description>
+
+    <!-- Main -->
+    <request-map uri="main">
+        <security https="true" auth="true"/>
+        <response name="success" type="view" value="FindCustomer"/>
+    </request-map>
+
+    <!-- Find Customer (view) -->
+    <request-map uri="FindCustomer">
+        <security https="true" auth="true"/>
+        <response name="success" type="view" value="FindCustomer"/>
+    </request-map>
+
+    <!-- Create Customer event -->
+    <request-map uri="createCustomer">
+        <security https="true" auth="true"/>
+        <event type="service" invoke="createCustomer"/>
+        <response name="success" type="request-redirect" value="FindCustomer"/>
+        <response name="error"   type="view"             value="FindCustomer"/>
+    </request-map>
+
+    <!-- Update Customer event -->
+    <request-map uri="updateCustomer">
+        <security https="true" auth="true"/>
+        <event type="service" invoke="updateCustomer"/>
+        <response name="success" type="request-redirect" value="FindCustomer"/>
+        <response name="error"   type="view"             value="FindCustomer"/>
+    </request-map>
+
+    <!-- Create Customer Relationship -->
+    <request-map uri="createCustomerRelationship">
+        <security https="true" auth="true"/>
+        <event type="service" invoke="createCustomerRelationship"/>
+        <response name="success" type="request-redirect" value="FindCustomer"/>
+        <response name="error"   type="view"             value="FindCustomer"/>
+    </request-map>
+
+    <!-- Update Customer Relationship -->
+    <request-map uri="updateCustomerRelationship">
+        <security https="true" auth="true"/>
+        <event type="service" invoke="updateCustomerRelationship"/>
+        <response name="success" type="request-redirect" value="FindCustomer"/>
+        <response name="error"   type="view"             value="FindCustomer"/>
+    </request-map>
+
+    <!-- View Mappings -->
+    <view-map name="FindCustomer"
+              type="ftl"
+              page="component://CustomerManagement/template/findCustomer.ftl"/>
+
+</site-conf>
