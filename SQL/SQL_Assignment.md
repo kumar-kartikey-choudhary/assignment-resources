@@ -392,20 +392,32 @@ GROUP BY oh.sales_channel_enum_id;
 ### 1. Completed Sales Orders (Physical Items)
 
 ```sql
-SELECT oh.ORDER_ID, oi.ORDER_ITEM_SEQ_ID, oi.PRODUCT_ID,
-       p.PRODUCT_TYPE_ID, oh.SALES_CHANNEL_ENUM_ID,
-       oh.ORDER_DATE, oh.ENTRY_DATE, oh.STATUS_ID,
-       STATUS_DATETIME, oh.ORDER_TYPE_ID, oh.PRODUCT_STORE_ID
-FROM order_header oh
-JOIN order_item oi USING (order_id)
-JOIN (
-    SELECT order_id, MAX(status_datetime) AS STATUS_DATETIME
-    FROM order_status
-    GROUP BY order_id
-) os ON os.order_id = oh.order_id
-JOIN product p ON oi.product_id = p.product_id
-WHERE oh.status_id = 'ORDER_COMPLETED'
-  AND oh.order_type_id = 'SALES_ORDER';
+SELECT
+	oh.ORDER_ID,
+	oi.ORDER_ITEM_SEQ_ID,
+	oi.PRODUCT_ID,
+	p.PRODUCT_TYPE_ID,
+	oh.SALES_CHANNEL_ENUM_ID,
+	oh.ORDER_DATE,
+	oh.ENTRY_DATE,
+	os.STATUS_ID,
+	os.STATUS_DATETIME,
+	oh.ORDER_TYPE_ID,
+	oh.PRODUCT_STORE_ID
+FROM
+	order_header oh
+JOIN order_item oi
+		USING(order_id)
+JOIN order_status os ON
+	os.order_id = oh.order_id
+JOIN product p ON
+	oi.product_id = p.product_id
+JOIN product_type pt ON
+	pt.product_type_id = p.product_type_id 
+WHERE
+	os.status_id = 'ORDER_COMPLETED' AND pt.is_physical = 'Y'
+	AND oh.order_type_id = 'SALES_ORDER';
+
 ```
 
 ---
@@ -413,18 +425,26 @@ WHERE oh.status_id = 'ORDER_COMPLETED'
 ### 2. Completed Return Items
 
 ```sql
-SELECT rh.RETURN_ID, ri.ORDER_ID, oh.PRODUCT_STORE_ID,
-       STATUS_DATETIME, oh.ORDER_NAME, rh.FROM_PARTY_ID,
-       rh.RETURN_DATE, rh.ENTRY_DATE, rh.RETURN_CHANNEL_ENUM_ID
-FROM return_header rh
-JOIN return_item ri ON rh.return_id = ri.return_id
-JOIN order_header oh ON ri.order_id = oh.order_id
-JOIN (
-    SELECT return_id, MAX(status_datetime) AS STATUS_DATETIME
-    FROM return_status
-    GROUP BY return_id
-) ra ON ra.return_id = rh.return_id
-WHERE rh.status_id = 'RETURN_COMPLETED';
+SELECT
+	rh.RETURN_ID,
+	ri.ORDER_ID,
+	oh.PRODUCT_STORE_ID,
+	rs.STATUS_DATETIME,
+	oh.ORDER_NAME,
+	rh.FROM_PARTY_ID,
+	rh.RETURN_DATE,
+	rh.ENTRY_DATE,
+	rh.RETURN_CHANNEL_ENUM_ID
+FROM
+	return_header rh
+JOIN return_item ri ON
+	rh.return_id = ri.return_id
+JOIN order_header oh ON
+	ri.order_id = oh.order_id
+JOIN return_status rs ON
+	rh.return_id = rs.return_id 
+WHERE 
+	rs.status_id = 'RETURN_COMPLETED';
 ```
 
 ---
@@ -432,13 +452,24 @@ WHERE rh.status_id = 'RETURN_COMPLETED';
 ### 3. Single-Return Orders (Last Month)
 
 ```sql
-SELECT rh.from_party_id AS PARTY_ID, per.FIRST_NAME
-FROM return_header rh
-JOIN person per ON per.party_id = rh.from_party_id
-JOIN return_item ri ON rh.return_id = ri.return_id
-WHERE MONTH(rh.return_date) = MONTH(CURDATE() - 1)
-GROUP BY ri.order_id, rh.from_party_id, per.first_name
-HAVING COUNT(DISTINCT rh.return_id) = 1;
+SELECT
+       rh.from_party_id AS PARTY_ID,
+	per.FIRST_NAME
+FROM
+	return_header rh
+JOIN person per ON
+	per.party_id = rh.from_party_id
+JOIN return_item ri ON
+	rh.return_id = ri.return_id
+WHERE
+	MONTH(rh.return_date) = MONTH(curdate()-1)
+GROUP BY
+	ri.order_id,
+	rh.from_party_id,
+	per.first_name
+HAVING
+	Count(DISTINCT rh.return_id) = 1;
+
 ```
 
 ---
