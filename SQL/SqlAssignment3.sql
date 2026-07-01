@@ -1,5 +1,7 @@
 use hotwax_commerce ;
 -- Completed Sales Orders (Physical Items)
+-- Business Problem:
+-- Merchants need to track only physical items (requiring shipping and fulfillment) for logistics and shipping-cost analysis.
 SELECT
 	oh.ORDER_ID,
 	oi.ORDER_ITEM_SEQ_ID,
@@ -8,39 +10,36 @@ SELECT
 	oh.SALES_CHANNEL_ENUM_ID,
 	oh.ORDER_DATE,
 	oh.ENTRY_DATE,
-	oh.STATUS_ID,
-	STATUS_DATETIME,
+	os.STATUS_ID,
+	os.STATUS_DATETIME,
 	oh.ORDER_TYPE_ID,
 	oh.PRODUCT_STORE_ID
 FROM
 	order_header oh
 JOIN order_item oi
 		USING(order_id)
-JOIN (
-	SELECT
-		order_id,
-		MAX(status_datetime) AS STATUS_DATETIME
-	FROM
-		order_status
-	GROUP BY
-		order_id ) os ON
+JOIN order_status os ON
 	os.order_id = oh.order_id
 JOIN product p ON
 	oi.product_id = p.product_id
+JOIN product_type pt ON
+	pt.product_type_id = p.product_type_id 
 WHERE
-	oh.status_id = 'ORDER_COMPLETED'
+	os.status_id = 'ORDER_COMPLETED' AND pt.is_physical = 'Y'
 	AND oh.order_type_id = 'SALES_ORDER';
 
 
 
 
 -- Completed Return Items
+-- Business Problem:
+-- Customer service and finance often need insights into returned items to manage refunds, replacements, and inventory restocking.
 
 SELECT
 	rh.RETURN_ID,
 	ri.ORDER_ID,
 	oh.PRODUCT_STORE_ID,
-	STATUS_DATETIME,
+	rs.STATUS_DATETIME,
 	oh.ORDER_NAME,
 	rh.FROM_PARTY_ID,
 	rh.RETURN_DATE,
@@ -52,25 +51,20 @@ JOIN return_item ri ON
 	rh.return_id = ri.return_id
 JOIN order_header oh ON
 	ri.order_id = oh.order_id
-JOIN (
-	SELECT
-		return_id,
-		MAX(status_datetime) AS STATUS_DATETIME
-	FROM
-		return_status
-	GROUP BY
-		return_id ) ra ON
-	ra.return_id = rh.return_id
-WHERE
-	rh.status_id = 'RETURN_COMPLETED';
-
+JOIN return_status rs ON
+	rh.return_id = rs.return_id 
+WHERE 
+	rs.status_id = 'RETURN_COMPLETED';
 
 
 
 --  Single-Return Orders (Last Month)
+-- Business Problem:
+-- The mechandising team needs a list of orders that only have one return.
+	
 SELECT
 	rh.from_party_id AS PARTY_ID,
-		per.FIRST_NAME
+	per.FIRST_NAME
 FROM
 	return_header rh
 JOIN person per ON
@@ -81,19 +75,22 @@ WHERE
 	MONTH(rh.return_date) = MONTH(curdate()-1)
 GROUP BY
 	ri.order_id,
-			rh.from_party_id,
-			per.first_name
+	rh.from_party_id,
+	per.first_name
 HAVING
 	Count(DISTINCT rh.return_id) = 1;
 
 
 
 -- Returns and Appeasements
+-- Business Problem:
+-- The retailer needs the total amount of items, were returned as well as how many appeasements were issued.
+
 SELECT
 	COUNT(DISTINCT rh.return_id) AS TOTAL_RETURNS,
-		SUM(ri.return_quantity * ri.return_price) AS RETURN_TOTAL,
-		COUNT(DISTINCT ra.return_adjustment_id ) AS TOTAL_APPEASEMENTS,
-		SUM(ra.amount) AS APPEASEMENTS_TOTAL
+	SUM(ri.return_quantity * ri.return_price) AS RETURN_TOTAL,
+	COUNT(DISTINCT ra.return_adjustment_id ) AS TOTAL_APPEASEMENTS,
+	SUM(ra.amount) AS APPEASEMENTS_TOTAL
 FROM
 	return_header rh
 JOIN return_item ri ON
@@ -106,6 +103,9 @@ WHERE
 
 
 -- Detailed Return Information
+-- Business Problem:
+-- Certain teams need granular return data (reason, date, refund amount) for analyzing return rates, identifying recurring issues, or updating policies.
+
 SELECT
 	rh.RETURN_ID,
 	rh.ENTRY_DATE,
@@ -128,6 +128,9 @@ JOIN return_adjustment ra ON
 
 
 -- Orders with Multiple Returns
+-- Business Problem:
+-- Analyzing orders with multiple returns can identify potential fraud, chronic issues with certain items, or inconsistent shipping processes.
+
 SELECT
 	ri.order_id,
 	rh.return_id,
@@ -155,6 +158,9 @@ ORDER BY
 
 
 -- Store with Most One-Day Shipped Orders (Last Month)
+-- Business Problem:
+-- Identify which facility (store) handled the highest volume of “one-day shipping” orders in the previous month, useful for operational benchmarking.
+
 SELECT
 	f.facility_id,
 	f.facility_name,
@@ -183,6 +189,9 @@ GROUP BY
 
 
 -- List of Warehouse Pickers
+-- Business Problem:
+-- Warehouse managers need a list of employees responsible for picking and packing orders to manage shifts, productivity, and training needs.
+
 SELECT
 	fp.PARTY_ID,
 		CONCAT(per.FIRST_NAME, ' ', per.LAST_NAME) AS FULL_NAME,
@@ -201,6 +210,9 @@ WHERE
 
 
 -- Total Facilities That Sell the Product
+-- Business Problem:
+-- Retailers want to see how many (and which) facilities (stores, warehouses, virtual sites) currently offer a product for sale.
+
 SELECT
 	p.product_id,
 	p.internal_name AS product_name,
@@ -218,6 +230,9 @@ GROUP BY
 
 
 -- Total Items in Various Virtual Facilities
+-- Business Problem:
+-- Retailers need to study the relation of inventory levels of products to the type of facility it's stored at. Retrieve all inventory levels for products at locations and include the facility type Id. Do not retrieve facilities that are of type Virtual.
+
 SELECT
 	pf.PRODUCT_ID,
 		pf.FACILITY_ID,
@@ -237,6 +252,9 @@ WHERE
 
   
 -- Transfer Orders Without Inventory Reservation
+-- Business Problem:
+-- When transferring stock between facilities, the system should reserve inventory. If it isn’t reserved, the transfer may fail or oversell.
+
 SELECT
     oh.order_id AS transfer_order_id,
     s.origin_facility_id AS from_facility_id,
@@ -269,6 +287,9 @@ HAVING COALESCE(SUM(oir.quantity), 0) < oi.quantity;
 
 
 -- Orders Without Picklist 
+-- Business Problem:
+-- A picklist is necessary for warehouse staff to gather items. Orders missing a picklist might be delayed and need attention.
+
 SELECT
     oh.order_id,
     oh.order_date,
