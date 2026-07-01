@@ -1,7 +1,4 @@
 # SQL Assignments 
-
-> **Database:** `hotwax_commerce`
-
 ---
 
 ## Assignment 1
@@ -11,7 +8,7 @@
 ```sql
 SELECT p.party_id, per.first_name, per.last_name,
        cm.info_string AS email,
-       CONCAT(tn.country_code , "-" , tn.contact_number) AS phone,
+       CONCAT(tn.country_code , " " , tn.contact_number) AS phone,
        p.created_date AS entry_date,
        pr.role_type_id AS role
 FROM party p
@@ -752,6 +749,3 @@ WHERE rh.destination_facility_id IS NULL
    OR rh.destination_facility_id = '_NA_';
 ```
 
----
-
-*End of SQL Assignments*
